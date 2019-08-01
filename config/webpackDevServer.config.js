@@ -89,7 +89,7 @@ module.exports = function (proxy, allowedHost) {
         require(paths.proxySetup)(app);
       }
 
-      app.use("/auth_server", httpProxy("localhost", 7001, (url) => url));
+      app.use("/market_server", httpProxy("localhost", 7002, (url) => url));
 
       // This lets us fetch source contents from webpack for the error overlay
       app.use(evalSourceMapMiddleware(server));

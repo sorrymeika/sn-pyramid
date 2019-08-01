@@ -1,13 +1,13 @@
 import { createApplication } from "snowball/app";
+import { Server } from "sn-cornerstone";
 import "./sass/style.scss";
 import router from "./app/router";
-import { Server } from "./utils/Server";
 
 const projects = {
 };
 
-const server = new Server({
-    baseUri: '/auth_server'
+const marketServer = new Server({
+    baseUri: '/market_server'
 });
 
 createApplication({
@@ -16,7 +16,7 @@ createApplication({
     autoStart: true,
     extend() {
         return {
-            server
+            marketServer
         };
     },
     options: {
