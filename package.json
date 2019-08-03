@@ -3,10 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "devDependencies": {
-    "@babel/plugin-proposal-decorators": "^7.4.4",
-    "@babel/preset-env": "^7.4.5",
     "@babel/core": "7.4.3",
+    "@babel/plugin-proposal-decorators": "^7.4.4",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.4.5",
     "@babel/register": "^7.4.4",
     "@svgr/webpack": "4.1.0",
     "@typescript-eslint/eslint-plugin": "1.6.0",

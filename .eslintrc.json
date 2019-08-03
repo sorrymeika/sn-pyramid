@@ -4,6 +4,7 @@
         "plugin:flowtype/recommended"
     ],
     "rules": {
+        "jsx-a11y/anchor-is-valid": "off",
         "no-unused-vars": "warn",
         "no-restricted-globals": "off",
         "semi": "error",
@@ -19,14 +20,16 @@
         "no-unneeded-ternary": "error",
         "space-unary-ops": "warn",
         "semi-spacing": [
-            "warn", {
+            "warn",
+            {
                 "before": false,
                 "after": true
             }
         ],
         "space-before-blocks": "warn",
         "space-before-function-paren": [
-            "error", {
+            "error",
+            {
                 "anonymous": "always",
                 "named": "never",
                 "asyncArrow": "always"
@@ -51,19 +54,22 @@
             "never"
         ],
         "key-spacing": [
-            "warn", {
+            "warn",
+            {
                 "beforeColon": false,
                 "afterColon": true
             }
         ],
         "keyword-spacing": [
-            "warn", {
+            "warn",
+            {
                 "before": true,
                 "after": true
             }
         ],
         "line-comment-position": [
-            "warn", {
+            "warn",
+            {
                 "position": "above"
             }
         ],
@@ -76,17 +82,20 @@
             "never"
         ],
         "no-multiple-empty-lines": [
-            "error", {
+            "error",
+            {
                 "max": 2
             }
         ],
         "new-cap": [
-            "error", {
+            "error",
+            {
                 "newIsCap": true
             }
         ],
         "newline-per-chained-call": [
-            "error", {
+            "error",
+            {
                 "ignoreChainWithDepth": 2
             }
         ],
@@ -96,7 +105,8 @@
         ],
         "indent": [
             "error",
-            4, {
+            4,
+            {
                 "SwitchCase": 1
             }
         ],

@@ -145,6 +145,7 @@ module.exports = function (webpackEnv) {
       isEnvDevelopment &&
       require.resolve('react-dev-utils/webpackHotDevClient'),
       isEnvDevelopment && require.resolve('snowball'),
+      isEnvDevelopment && require.resolve('nuclear'),
       isEnvDevelopment && require.resolve('sn-cornerstone'),
       // Finally, this is your app's code:
       paths.appIndexJs,
@@ -328,6 +329,7 @@ module.exports = function (webpackEnv) {
           options: {
             modules: {
               nuclear: 'window.Nuclear',
+              antd: 'window.Nuclear.antd',
               'sn-cornerstone': 'window.Cornerstone',
             },
           },
@@ -385,7 +387,8 @@ module.exports = function (webpackEnv) {
               test: /\.(js|mjs|jsx|ts|tsx)$/,
               include: [
                 path.resolve(paths.appPath, '../snowball'),
-                path.resolve(paths.appPath, '../sn-cornerstone')
+                path.resolve(paths.appPath, '../sn-cornerstone'),
+                path.resolve(paths.appPath, '../nuclear')
               ],
               loader: require.resolve('babel-loader'),
               options: {
