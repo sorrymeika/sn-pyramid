@@ -1,0 +1,4 @@
+class PageListController {
+}
+
+export { PageListController };

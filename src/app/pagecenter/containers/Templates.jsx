@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Button, Table, Modal, Form, Input, Select, Checkbox, InputNumber, message, Divider } from "antd";
-import { ImageUpload } from "nuclear";
+import { createControlledForm, ImageUpload } from "nuclear";
 import { TEMPLATE_GROUPS } from "../constants/TEMPLATE_GROUPS";
 
 const FormItem = Form.Item;
@@ -25,7 +25,12 @@ const pageTypes = [{
     name: '店铺营销页'
 }];
 
-function Templates({ dataSource, addTemplate }) {
+function Templates({ dataSource, search, addTemplate, updateTemplate }) {
+    const [searchData, setSearchData] = useState({});
+    const [modalVisible, setModalVisible] = useState(false);
+    const [editModalVisible, setEditModalVisible] = useState(false);
+    const [formData, setFormData] = useState({});
+
     const columns = [{
         title: 'ID',
         dataIndex: 'id',
@@ -70,13 +75,23 @@ function Templates({ dataSource, addTemplate }) {
         key: 'action',
         render: (text, record) => (
             <span>
-                <a href="javascript:;">编辑</a>
+                <a
+                    href="javascript:;"
+                    onClick={() => {
+                        const supportPageTypes = (record.supportPageTypes || '').split(',').map(Number);
+
+                        setEditModalVisible(true);
+                        setFormData({
+                            ...record,
+                            supportPageTypes
+                        });
+                    }}
+                >编辑</a>
                 <Divider type="vertical" />
                 <a href="javascript:;">禁用</a>
             </span>
         ),
     }];
-    const [modalVisible, setModalVisible] = useState(false);
 
     return (
         <div className="pd_m">
@@ -84,9 +99,11 @@ function Templates({ dataSource, addTemplate }) {
                 <div className="flex_1">
                     <Button onClick={() => setModalVisible(true)}>新增模版</Button>
                 </div>
-                <div>
-                    <Button>查询</Button>
-                </div>
+                <SearchForm
+                    data={searchData}
+                    onChange={setSearchData}
+                    onSearch={() => search(searchData)}
+                ></SearchForm>
             </div>
             <AdditionModal
                 visible={modalVisible}
@@ -94,10 +111,30 @@ function Templates({ dataSource, addTemplate }) {
                 onOk={
                     (data) => addTemplate(data)
                         .then((res) => {
+                            message.success('添加成功');
                             setModalVisible(false);
                         })
+                        .catch(e => {
+                            message.error(e.message || '添加失败');
+                        })
                 }
-            ></AdditionModal>
+            />
+            <EditModal
+                visible={editModalVisible}
+                formData={formData}
+                setFormData={setFormData}
+                onCancel={() => setEditModalVisible(false)}
+                onOk={
+                    (data) => updateTemplate(data)
+                        .then((res) => {
+                            message.success('修改成功');
+                            setEditModalVisible(false);
+                        })
+                        .catch(e => {
+                            message.error(e.message || '修改失败');
+                        })
+                }
+            />
             <Table
                 rowKey={'id'}
                 dataSource={dataSource}
@@ -106,6 +143,29 @@ function Templates({ dataSource, addTemplate }) {
         </div>
     );
 }
+
+const SearchForm = createControlledForm()(function (props) {
+    const { getFieldDecorator } = props.form;
+    return (
+        <Form layout="inline" onSubmit={
+            (e) => {
+                e.preventDefault();
+                props.onSearch();
+            }
+        }>
+            <FormItem label="名称">
+                {getFieldDecorator('name')(
+                    <Input
+                        placeholder="输入模板名称"
+                    />
+                )}
+            </FormItem>
+            <FormItem>
+                <Button type="primary" htmlType="submit">查询</Button>
+            </FormItem>
+        </Form>
+    );
+});
 
 function AdditionModal({ visible, onCancel, onOk }) {
     const [formData, setFormData] = useState({});
@@ -134,37 +194,44 @@ function AdditionModal({ visible, onCancel, onOk }) {
             width={'96%'}
             style={{ marginTop: '-100px' }}
         >
-            <AdditionForm
+            <TemplateForm
                 ref={formRef}
                 data={formData}
                 onChange={setFormData}
-            ></AdditionForm>
+            ></TemplateForm>
         </Modal>
     );
 }
 
-const AdditionForm = Form.create({
-    onFieldsChange(props, changedFields) {
-        props.onChange(Object.keys(changedFields)
-            .reduce((data, key) => {
-                data[key] = changedFields[key].value;
-                return data;
-            }, props.data));
-    },
-    mapPropsToFields(props) {
-        const { data } = props;
-
-        return Object.keys(data)
-            .reduce((fields, key) => {
-                fields[key] = Form.createFormField({
-                    value: data[key],
+function EditModal({ formData, setFormData, visible, onCancel, onOk }) {
+    const formRef = React.createRef();
+    return (
+        <Modal
+            title="修改模板"
+            visible={visible}
+            onCancel={onCancel}
+            onOk={() => {
+                formRef.current.validateFieldsAndScroll((err, data) => {
+                    if (err) {
+                        return message.error('请完整填写模板信息');
+                    }
+                    onOk && onOk({ ...formData, ...data });
                 });
-                return fields;
-            }, {});
-    },
-})(function AdditionForm(props) {
-    const { getFieldDecorator } = props.form;
+            }}
+            width={'96%'}
+            style={{ marginTop: '-100px' }}
+        >
+            <TemplateForm
+                ref={formRef}
+                data={formData}
+                onChange={setFormData}
+            ></TemplateForm>
+        </Modal>
+    );
+}
 
+const TemplateForm = createControlledForm()(function TemplateForm(props) {
+    const { getFieldDecorator } = props.form;
     const formItemLayout = {
         labelCol: {
             xs: { span: 24 },
