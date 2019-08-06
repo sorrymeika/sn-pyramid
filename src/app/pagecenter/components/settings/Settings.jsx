@@ -34,7 +34,7 @@ class Settings extends Component {
                 <div className="py_pagecenter_settings_con">
                     {children}
                     {
-                        currentBrick && currentBrick.id
+                        currentBrick && currentBrick.id && renderForm
                             ? renderForm({
                                 brick: currentBrick,
                                 template: currentTemplate,

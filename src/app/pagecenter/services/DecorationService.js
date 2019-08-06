@@ -61,7 +61,6 @@ export class DecorationService extends Service {
     }
 
     selectBrick({ brick, template }) {
-        console.log(brick);
         this.currentBrick = brick;
         this.currentTemplate = template;
         this.selectedBrickId = brick.id;

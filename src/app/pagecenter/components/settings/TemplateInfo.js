@@ -5,48 +5,46 @@ import { inject } from 'snowball/app';
 class TemplateInfo extends Component {
 
     componentDidUpdate() {
-        const { currentModule } = this.props;
-        const { template } = currentModule;
+        const { currentTemplate, currentBrick } = this.props;
 
-        if (template && template.extProps && template.extProps.example && this.exampleRef) {
-            if (!this.exampleViewModel || this.exampleViewModel.attributes.example !== template.extProps.example) {
-                this.exampleViewModel && this.exampleViewModel.destroy();
-                this.exampleRef.innerHTML = '';
-                this.exampleViewModel = new ViewModel(this.extProps.example, Object.assign({}, template.extProps, {
-                    bizData: currentModule.data.bizData
-                }));
-                this.exampleViewModel.$el.appendTo(this.exampleRef);
+        if (currentTemplate && currentTemplate.preview && this.previewRef) {
+            if (!this.previewViewModel || this.previewViewModel.attributes.example !== currentTemplate.preview) {
+                this.previewViewModel && this.previewViewModel.destroy();
+                this.previewRef.innerHTML = '';
+                this.previewViewModel = new ViewModel(currentTemplate.preview, {
+                    templateProps: currentTemplate.props,
+                    data: currentBrick.data,
+                    brickProps: currentBrick.props
+                });
+                this.previewViewModel.$el.appendTo(this.previewRef);
             } else {
-                this.exampleViewModel.set(Object.assign({}, this.extProps, {
-                    bizData: currentModule.data.bizData
-                }));
+                this.previewViewModel.set({
+                    templateProps: currentTemplate.props,
+                    data: currentBrick.data,
+                    brickProps: currentBrick.props
+                });
             }
         }
     }
 
     setExampleRef = (ref) => {
-        this.exampleRef = ref;
+        this.previewRef = ref;
     }
 
     render() {
-        const { currentModule, children } = this.props;
-        const { template } = currentModule;
+        const { currentTemplate, children } = this.props;
+        console.log(currentTemplate);
 
-        if (!template) {
+        if (!currentTemplate || !currentTemplate.id) {
             return null;
-        }
-
-        let { description } = template;
-        if (description && description.startsWith('[') && description.endsWith(']')) {
-            description = template.name;
         }
 
         return (
             <div className="pd_l pb_s">
-                <h1 className="fs_xl mb_l">{template.name}</h1>
-                <div className="cl_999 mb_m fs_s">{description}</div>
+                <h1 className="fs_xl mb_l">{currentTemplate.name}</h1>
+                <div className="cl_999 mb_m fs_s">{currentTemplate.description}</div>
                 {
-                    template.extProps.example
+                    currentTemplate.preview
                         ? (
                             <div className="mb_m">
                                 <h2 className="fs_m">示例</h2>
@@ -61,5 +59,13 @@ class TemplateInfo extends Component {
     }
 }
 
+const TemplateInfoInjc = inject(({ decorationService }) => (
+    decorationService
+        ? {
+            currentTemplate: decorationService.currentTemplate,
+            currentBrick: decorationService.currentBrick
+        }
+        : {}
+))(TemplateInfo);
 
-export { TemplateInfo };
+export { TemplateInfoInjc as TemplateInfo };
