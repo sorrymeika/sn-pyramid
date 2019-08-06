@@ -6,6 +6,7 @@ export class DecorationService extends Service {
     @observable bricks = [];
     @observable templates = [];
     @observable currentBrick = {};
+    @observable currentTemplate = {};
     @observable selectedBrickId;
     @observable warning;
     @observable title;
@@ -15,6 +16,9 @@ export class DecorationService extends Service {
     onSelectBrick = this.ctx.createEvent();
     onSwapBrick = this.ctx.createEvent();
     onDeleteBrick = this.ctx.createEvent();
+
+    onSettingCancel = this.ctx.createEvent();
+    onSettingOk = this.ctx.createEvent();
 
     @observable isSaveButtonDisabled = true;
     onSaveButtonClick = this.ctx.createEvent();
@@ -28,9 +32,12 @@ export class DecorationService extends Service {
 
         this.onDrop((e) => this.handleDrop(e));
 
-        this.onSelectBrick((brick) => this.selectBrick(brick));
+        this.onSelectBrick((data) => this.selectBrick(data));
         this.onSwapBrick((fromIndex, toIndex) => this.onSwapBrick(fromIndex, toIndex));
         this.onDeleteBrick((brick) => this.deleteBrick(brick));
+
+        this.onSettingCancel(() => this.cancelSetting());
+        this.onSettingOk(() => this.submitSetting());
 
         this.onSaveButtonClick(() => this.savePage());
         this.onPublishButtonClick(() => this.publishPage());
@@ -47,15 +54,17 @@ export class DecorationService extends Service {
                     id: 1,
                     data: {},
                     props: {},
-                    template
+                    templateId: template.id
                 });
             });
         }
     }
 
-    selectBrick(brick) {
+    selectBrick({ brick, template }) {
         console.log(brick);
         this.currentBrick = brick;
+        this.currentTemplate = template;
+        this.selectedBrickId = brick.id;
     }
 
     swapBrick(fromIndex, toIndex) {
@@ -64,6 +73,12 @@ export class DecorationService extends Service {
 
     deleteBrick(brick) {
         console.log(brick);
+    }
+
+    cancelSetting() {
+    }
+
+    submitSetting() {
     }
 
     savePage() {

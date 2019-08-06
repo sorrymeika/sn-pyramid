@@ -5,8 +5,8 @@ import { Templates } from '../components/Templates';
 import { Topbar, Left, Right } from '../components/topbar/Topbar';
 import { SaveButton } from '../components/topbar/SaveButton';
 import { PublishButton } from '../components/topbar/PublishButton';
-import { DecorationZone, Emulator } from '../components/decoration-zone';
-import { PhoneHead } from '../components/decoration-zone/emulator/PhoneHead';
+import { DecorationZone, Emulator, PhoneHead } from '../components/decoration-zone';
+import { Settings } from '../components/settings';
 
 function Decorator() {
     return (
@@ -26,6 +26,7 @@ function Decorator() {
                         head={<PhoneHead></PhoneHead>}
                     ></Emulator>
                 </DecorationZone>
+                <Settings></Settings>
             </Main>
         </div>
     );

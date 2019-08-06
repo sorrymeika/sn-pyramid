@@ -65,18 +65,26 @@ function Templates(props) {
                                 >
                                     {
                                         group.group.map((template) => {
-                                            var isOnlyOne = template.props.onlyOne;
-                                            var count = isOnlyOne
-                                                ? bricks.filter((mod) => mod.template.id == template.id).length
+                                            const isOnlyOne = template.props.onlyOne;
+                                            let count = isOnlyOne
+                                                ? bricks.filter((brick) => brick.templateId == template.id).length
                                                 : 0;
 
                                             // 检查互斥模块
-                                            var excludeItem = bricks.filter((mod) => {
-                                                return mod.template.props.exclude
-                                                    ? mod.template.props.exclude.includes(template.templetType)
+                                            const excludeItems = bricks.reduce((results, brick) => {
+                                                const tpl = templates.find(item => item.id == brick.templateId);
+                                                const exclude = tpl.props.exclude
+                                                    ? tpl.props.exclude.includes(template.type)
                                                     : false;
-                                            });
-                                            if (excludeItem.length > 0) {
+                                                if (exclude) {
+                                                    results.push({
+                                                        ...exclude,
+                                                        template: tpl
+                                                    });
+                                                }
+                                                return results;
+                                            }, []);
+                                            if (excludeItems.length > 0) {
                                                 count = 1;
                                             }
 
@@ -87,9 +95,9 @@ function Templates(props) {
                                                         className={`sp_decoration__template_item fl_l`}
                                                         style={{ opacity: '.5', cursor: "default" }}
                                                         onMouseDown={() => {
-                                                            excludeItem.length <= 0
+                                                            excludeItems.length <= 0
                                                                 ? message.warning(`${template.name}只能添加1个哦！`)
-                                                                : message.warning(`${template.name}与${excludeItem[0].template.name}模块互斥`);
+                                                                : message.warning(`${template.name}与${excludeItems[0].template.name}模块互斥`);
                                                         }}
                                                     >
                                                         <img alt="" src={template.img} />

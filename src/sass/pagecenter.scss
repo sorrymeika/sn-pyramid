@@ -34,3 +34,13 @@
 .py_pagecenter_emulator_brick_editor { position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 1px solid #333; z-index: 7; }
 .py_pagecenter_emulator_brick_editor .btns { position: absolute; right: -50px; top: -1px; width: 50px; }
 .py_pagecenter_emulator_brick_editor .btns button { display: block; cursor: pointer; background: #333; color: #fff; margin-bottom: 5px; }
+
+.py_pagecenter_settings { width: 330px; position: relative; border-left: 1px solid #ddd; }
+.py_pagecenter_settings .warning { color: #cc0000; }
+.py_pagecenter_settings_con { height: calc(100% - 48px); overflow-x: hidden; overflow-y: auto; }
+.py_pagecenter_settings_ft { position: absolute; height: 48px; border-top: 1px solid #ddd; bottom: 0px; left: 0; right: 0; }
+.py_pagecenter_settings_ft button { border: 0; border-right: 1px solid #ddd; border-radius: 0; height: 30px; }
+.py_pagecenter_settings_ft button:last-child { border-right: 0; }
+.py_pagecenter_settings_cancel { color: #666; }
+.py_pagecenter_settings_ok { color: #108ee9; }
+

@@ -10,8 +10,8 @@ import { createBrick } from '../../../bricks/factories';
 @inject(({ decorationService }) => (
     decorationService
         ? {
+            pageState: decorationService.pageState,
             bricks: decorationService.bricks,
-            currentBrick: decorationService.currentBrick,
             selectedBrickId: decorationService.selectedBrickId,
             onSelectBrick: decorationService.onSelectBrick.emit,
             onSwapBrick: decorationService.onSwapBrick.emit,
@@ -39,6 +39,7 @@ class Brick extends Component {
             template,
             brick,
             index,
+            pageState,
             bricks,
             className,
             selectedBrickId,
@@ -48,7 +49,11 @@ class Brick extends Component {
 
         const isFixed = template.props.isFixed;
         const isStickyBar = template.props.isStickyBar;
-        const brickElement = createBrick(template.type, brick, template);
+        const brickElement = createBrick(template.type, {
+            page: pageState,
+            brick,
+            template
+        });
 
         return (
             <DragItem
@@ -56,7 +61,10 @@ class Brick extends Component {
                 insertable={!isStickyBar}
                 data={brick}
                 className={`py_pagecenter_emulator_brick ${className ? " " + className : ""}`}
-                onClick={() => onSelectBrick(brick)}
+                onClick={() => onSelectBrick({
+                    brick,
+                    template
+                })}
             >
                 <div
                     style={{ pointerEvents: 'none' }}

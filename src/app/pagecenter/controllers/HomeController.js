@@ -39,7 +39,7 @@ class HomeController extends DecorationBase {
                 id: 1,
                 data: {},
                 props: {},
-                template: this.decorationService.templates[0]
+                templateId: this.decorationService.templates[0].id
             });
         });
     }

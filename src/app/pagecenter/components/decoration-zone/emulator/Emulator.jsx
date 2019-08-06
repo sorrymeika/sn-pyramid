@@ -4,14 +4,14 @@ import { FixedLayer } from './FixedLayer';
 import { Phone } from './Phone';
 import { Brick } from './Brick';
 
-@inject("bricks")
+@inject("bricks", 'templates')
 class Emulator extends Component {
     render() {
-        const { head, before, after, bricks, children } = this.props;
+        const { head, before, after, bricks, templates, children } = this.props;
         const brickList = [];
 
         bricks.forEach((item, i) => {
-            const template = item.template;
+            const template = templates.find((tpl) => tpl.id == item.templateId);
             if (!template.html) {
                 return;
             }
