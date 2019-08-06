@@ -1,10 +1,12 @@
 import React, { } from 'react';
 import { Main } from '../components/Main';
 import { Sidebar } from '../components/Sidebar';
-import { Bricks } from '../components/Bricks';
+import { Templates } from '../components/Templates';
 import { Topbar, Left, Right } from '../components/topbar/Topbar';
 import { SaveButton } from '../components/topbar/SaveButton';
 import { PublishButton } from '../components/topbar/PublishButton';
+import { DecorationZone, Emulator } from '../components/decoration-zone';
+import { PhoneHead } from '../components/decoration-zone/emulator/PhoneHead';
 
 function Decorator() {
     return (
@@ -18,7 +20,12 @@ function Decorator() {
                 </Right>
             </Topbar>
             <Main>
-                <Bricks groups={[]}></Bricks>
+                <Templates groups={[]}></Templates>
+                <DecorationZone>
+                    <Emulator
+                        head={<PhoneHead></PhoneHead>}
+                    ></Emulator>
+                </DecorationZone>
             </Main>
         </div>
     );

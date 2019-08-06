@@ -15,6 +15,14 @@ class PageService extends Service {
             historyId
         });
     }
+
+    addBrick(pageId, historyId, brick) {
+        return this.ctx.marketServer.post('/page/addBrick', {
+            pageId,
+            historyId,
+            brick
+        });
+    }
 }
 
 export { PageService };

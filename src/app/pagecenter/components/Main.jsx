@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import { inject } from 'snowball/app';
 import { Drag } from 'nuclear';
 
-@inject('decorationService')
+@inject(({ decorationService }) => (
+    decorationService
+        ? {
+            onDrop: decorationService.onDrop.emit
+        }
+        : {}
+))
 class Main extends Component {
     componentDidMount() {
     }

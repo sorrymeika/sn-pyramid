@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button, Table, Modal, Form, Input, Select, Checkbox, InputNumber, message, Divider } from "antd";
 import { createControlledForm, ImageUpload } from "nuclear";
 import { TEMPLATE_GROUPS } from "../constants/TEMPLATE_GROUPS";
@@ -170,7 +170,7 @@ const SearchForm = createControlledForm()(function (props) {
 function AdditionModal({ visible, onCancel, onOk }) {
     const [formData, setFormData] = useState({});
 
-    const formRef = React.createRef();
+    const formRef = useRef();
 
     useEffect(() => {
         if (visible && formRef.current) {
@@ -204,7 +204,7 @@ function AdditionModal({ visible, onCancel, onOk }) {
 }
 
 function EditModal({ formData, setFormData, visible, onCancel, onOk }) {
-    const formRef = React.createRef();
+    const formRef = useRef();
     return (
         <Modal
             title="修改模板"

@@ -7,6 +7,30 @@
 .py_pagecenter_sidebar i { font-size: 20px; }
 .py_pagecenter_sidebar ~ .py_pagecenter_main, .py_pagecenter_sidebar ~ .py_pagecenter_topbar { left: 50px; }
 
+.py_pagecenter_templates { display: flex; width: 160px; padding: 10px 0; justify-content: flex-start; flex-wrap: wrap; border-right: 1px solid #ddd; -webkit-user-select: none; -webkit-touch-callout: none; user-select: none; }
+.py_pagecenter_templates_scroll::-webkit-scrollbar{ width: 0; height: 0; }
+.sp_decoration__template_item { cursor: move; text-align: center; padding: 5px 0 5px 0; width: 79px; -webkit-user-select: none; -webkit-touch-callout: none; user-select: none; }
+.sp_decoration__template_item:nth-child(2n+1) { clear: both; }
+.sp_decoration__template_item p { font-size: 12px; overflow: hidden; text-overflow: ellipsis; -webkit-user-select: none; -webkit-touch-callout: none; user-select: none; }
+.sp_decoration__template_item img { width: 40px; height: 40px; margin: 0 auto; pointer-events: none; display: block; }
+
 .py_pagecenter_topbar { border-bottom: 1px solid #ddd; height: 50px; }
 .py_pagecenter_topbar ~ .py_pagecenter_main { top: 50px; }
 
+.py_pagecenter_warning { position: absolute; left: 0; top: 0; width: 100%; z-index: 8; }
+.py_pagecenter_warning + div .py_pagecenter_emulator_scroll { padding-top: 42px; }
+
+.py_pagecenter_emulator { flex: 1; background: #e6e7eb; position: relative; height: 100%; -webkit-user-select: none; -webkit-touch-callout: none; user-select: none; }
+.py_pagecenter_emulator_scroll { position: absolute; overflow: scroll; padding: 25px 10px; bottom: 0; top: 0; right: 0; left: 0; }
+.py_pagecenter_emulator_phone { width: 375px; margin: 0 auto; box-shadow: 0px 0px 10px #666; }
+.py_pagecenter_emulator_main { flex: 1; width: 375px; border-top: none; margin: 0 auto; background: #f5f5f6; }
+.py_pagecenter_emulator_main *::-webkit-scrollbar { width: 0; height: 0; }
+.py_pagecenter_emulator_phone_body { min-height: 450px; }
+
+.py_pagecenter_emulator_fixed { width: 60px; position: absolute; left: 50%; top: 50%; margin-left: 100px; z-index: 1000; }
+.py_pagecenter_emulator_fixed .py_pagecenter_emulator_brick { margin-top: 10px; }
+
+.py_pagecenter_emulator_brick { position: relative; }
+.py_pagecenter_emulator_brick_editor { position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 1px solid #333; z-index: 7; }
+.py_pagecenter_emulator_brick_editor .btns { position: absolute; right: -50px; top: -1px; width: 50px; }
+.py_pagecenter_emulator_brick_editor .btns button { display: block; cursor: pointer; background: #333; color: #fff; margin-bottom: 5px; }

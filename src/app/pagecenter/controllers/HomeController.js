@@ -8,20 +8,40 @@ import { DecorationBase } from "./DecorationBase";
 class HomeController extends DecorationBase {
 
     async onInit() {
-        const res = await this.pageService.editHome();
-        if (!res.success) {
-            message.error(res.message);
+        const [pageRes, templateRes] = await Promise.all([this.pageService.editHome(), this.templateService.getTemplates()]);
+        if (!pageRes.success || !templateRes.success) {
+            const error = pageRes.message || templateRes.message;
+            message.error(error);
+            this.decorationService.warning = error;
             return;
         }
-        const pageState = res.data;
+        const pageState = pageRes.data;
         this.decorationService.pageState = pageState;
+        this.decorationService.templates = templateRes.data.map(item => ({
+            ...item,
+            props: item.props
+                ? JSON.parse(item.props) || {}
+                : {}
+        }));
+
+        console.log(this.decorationService.pageState);
 
         const bricksRes = await this.pageService.editBricks(pageState.id, pageState.historyId);
         if (!bricksRes.success) {
             message.error(bricksRes.message);
+            this.decorationService.warning = bricksRes.message;
             return;
         }
         this.decorationService.bricks = bricksRes.data;
+
+        this.decorationService.bricks.withMutations((bricks) => {
+            bricks.add({
+                id: 1,
+                data: {},
+                props: {},
+                template: this.decorationService.templates[0]
+            });
+        });
     }
 }
 
