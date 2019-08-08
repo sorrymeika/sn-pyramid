@@ -1,4 +1,4 @@
-import React, { } from 'react';
+import React from 'react';
 import { Main } from '../components/Main';
 import { Sidebar } from '../components/Sidebar';
 import { Templates } from '../components/Templates';
@@ -24,7 +24,8 @@ function Decorator() {
                 <DecorationZone>
                     <Emulator
                         head={<PhoneHead></PhoneHead>}
-                    ></Emulator>
+                    >
+                    </Emulator>
                 </DecorationZone>
                 <Settings>
                     <TemplateInfo></TemplateInfo>

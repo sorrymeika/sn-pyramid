@@ -1,7 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { inject } from 'snowball/app';
+import { createSettings } from '../../bricks';
+import { JsonComponent, Form } from 'nuclear';
 
-class Settings extends Component {
+
+class Settings extends JsonComponent {
     constructor(props) {
         super(props);
         this.formRef = React.createRef();
@@ -14,7 +17,7 @@ class Settings extends Component {
     }
 
     handleOk = () => {
-        this.formRef.current.validateFields((err) => {
+        this.formRef.current.form.validateFields((err) => {
             if (!err) {
                 this.props.onOk(this.data);
             }
@@ -26,24 +29,28 @@ class Settings extends Component {
             currentBrick,
             currentTemplate,
             children,
-            renderForm
         } = this.props;
 
         return (
             <div className="h_1x py_pagecenter_settings">
                 <div className="py_pagecenter_settings_con">
                     {children}
-                    {
-                        currentBrick && currentBrick.id && renderForm
-                            ? renderForm({
-                                brick: currentBrick,
-                                template: currentTemplate,
-                                data: currentBrick.data,
-                                onChange: this.handleDataChange,
-                                formRef: this.formRef
-                            })
-                            : null
-                    }
+                    <div className="pl_l pr_l">
+                        <Form
+                            ref={this.formRef}
+                        >
+                            {
+                                currentBrick && currentBrick.id
+                                    ? createSettings(currentTemplate.type, {
+                                        brick: currentBrick,
+                                        template: currentTemplate,
+                                        data: currentBrick.data,
+                                        onChange: this.handleDataChange,
+                                    })
+                                    : null
+                            }
+                        </Form>
+                    </div>
                 </div>
                 <div className="py_pagecenter_settings_ft flex">
                     <button

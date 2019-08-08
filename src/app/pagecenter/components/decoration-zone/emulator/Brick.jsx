@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Icon, Modal } from 'antd';
 import { inject } from 'snowball/app';
 import { DragItem } from 'nuclear';
-import { createBrick } from '../../../bricks/factories';
+import { createBrick } from '../../../bricks';
 
 /**
  * 模块的容器，提供拖拽、编辑等功能

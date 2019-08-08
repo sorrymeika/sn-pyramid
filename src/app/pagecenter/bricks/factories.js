@@ -1,12 +1,29 @@
 import React from "react";
-import { TEMPLATE_TYPES } from "../constants/TEMPLATE_TYPES";
-import { Images } from "./images";
+
+let registry = {};
+
+export function registerTemplate({ type, preivew, settings }) {
+    if (registry[type]) {
+        throw new Error(type + '已注册!');
+    }
+    registry[type] = {
+        type,
+        preivew,
+        settings
+    };
+}
 
 export function createBrick(type, props) {
-    console.log(type);
-    switch (type) {
-        case TEMPLATE_TYPES.IMAGE:
-            return React.createElement(Images, props);
-    }
-    return null;
+    const template = registry[type];
+    return template
+        ? React.createElement(template.preivew, props)
+        : null;
+}
+
+export function createSettings(type, props) {
+    const template = registry[type];
+    console.log(template);
+    return template
+        ? React.createElement(template.settings, props)
+        : null;
 }

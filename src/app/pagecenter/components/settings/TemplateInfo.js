@@ -33,15 +33,13 @@ class TemplateInfo extends Component {
 
     render() {
         const { currentTemplate, children } = this.props;
-        console.log(currentTemplate);
-
         if (!currentTemplate || !currentTemplate.id) {
             return null;
         }
 
         return (
             <div className="pd_l pb_s">
-                <h1 className="fs_xl mb_l">{currentTemplate.name}</h1>
+                <h1 className="fs_xl mb_l">{currentTemplate.name}配置</h1>
                 <div className="cl_999 mb_m fs_s">{currentTemplate.description}</div>
                 {
                     currentTemplate.preview
