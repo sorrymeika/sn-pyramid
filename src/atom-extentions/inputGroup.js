@@ -13,12 +13,49 @@ class InputGroupList extends JsonComponent {
 
     constructor(props) {
         super(props);
-        this.data = props.value || [{}];
+
+        this.id = 0;
+        const data = (props.value || []).map((item) => {
+            return {
+                ...item,
+                id: this.id++
+            };
+        });
+        if (data.length < this.props.minNum) {
+            for (let i = data.length; i < this.props.minNum; i++) {
+                data.push({
+                    ...this.props.defaultItemData,
+                    id: this.id++
+                });
+            }
+        }
+        this.data = data;
     }
 
     componentDidMount() {
         this.asModel().observe('data', (data) => {
             this.props.onChange && this.props.onChange(data);
+        });
+    }
+
+    removeItem(item) {
+        this.data.withMutations((data) => {
+            data.remove('id', item.id);
+        });
+    }
+
+    addItem() {
+        this.data.withMutations((data) => {
+            data.add({
+                ...this.props.defaultItemData,
+                id: this.id++
+            });
+        });
+    }
+
+    swapItem(a, b) {
+        this.data.withMutations((data) => {
+            data.swap(a, b);
         });
     }
 
@@ -29,6 +66,8 @@ class InputGroupList extends JsonComponent {
             type: 'list',
             props: {
                 indexAlias: 'i',
+                itemAlias: 'item',
+                rowKey: 'id',
                 items: [{
                     type: 'div',
                     props: {
@@ -47,21 +86,24 @@ class InputGroupList extends JsonComponent {
                             props: {
                                 type: 'arrow-up',
                                 style: iconStyle,
-                                visible: `{i!=0}`
+                                visible: `{i!=0}`,
+                                onClick: `{swapItem.bind(this,i,i-1)}`
                             }
                         }, {
                             type: 'icon',
                             props: {
                                 type: 'arrow-down',
                                 style: { marginLeft: 5, ...iconStyle },
-                                visible: `{i!=data.length-1}`
+                                visible: `{i!=data.length-1}`,
+                                onClick: `{swapItem.bind(this,i,i+1)}`
                             }
                         }, {
                             type: 'icon',
                             props: {
                                 type: 'close',
                                 style: { marginLeft: 5, ...iconStyle },
-                                visible: `{(props.minNum||1)>data.length}`
+                                visible: `{data.length>(props.minNum||1)}`,
+                                onClick: '{removeItem.bind(this,item)}'
                             }
                         }]
                     }]
@@ -74,18 +116,19 @@ class InputGroupList extends JsonComponent {
                             field: `{"data["+i+"].${input.props.field}"}`
                         }
                     };
-                }), {
-                    type: 'button',
-                    props: {
-                        icon: 'plus',
-                        type: "button",
-                        className: "pb_m mb_m fs_s ta_c w_full bg_fff",
-                        style: { cursor: 'pointer', border: '1px dashed #333', color: '#333', height: 27, lineHeight: '26px' },
-                        text: '{buttonText || "添加图片"} {data.length}/{props.maxNum}',
-                        visible: '{props.addible!==false}'
-                    }
-                }],
+                })],
                 dataSource: '{data}'
+            }
+        }, {
+            type: 'button',
+            props: {
+                icon: 'plus',
+                type: "button",
+                className: "pb_m mb_m fs_s ta_c w_full bg_fff",
+                style: { cursor: 'pointer', border: '1px dashed #333', color: '#333', height: 27, lineHeight: '26px' },
+                text: '{buttonText || "添加图片"} {data.length}/{props.maxNum}',
+                visible: '{props.addible!==false}',
+                onClick: '{addItem}'
             }
         }];
     }

@@ -22,7 +22,6 @@ export function createBrick(type, props) {
 
 export function createSettings(type, props) {
     const template = registry[type];
-    console.log(template);
     return template
         ? React.createElement(template.settings, props)
         : null;

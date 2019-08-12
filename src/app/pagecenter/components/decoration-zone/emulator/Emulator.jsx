@@ -27,12 +27,11 @@ class Emulator extends Component {
 
             brickList.push({
                 isFixed,
-                sort: template.props.sort,
+                sort: item.sort,
+                templateSort: template.props.sort,
                 component
             });
         });
-
-        console.log(brickList);
 
         return (
             <div>
@@ -59,7 +58,7 @@ class Emulator extends Component {
                                 item.id = i;
                                 return true;
                             })
-                            .sort((a, b) => ((b.sort || 0) - (a.sort || 0)) || (a.id - b.id))
+                            .sort((a, b) => ((b.templateSort || 0) - (a.templateSort || 0)) || ((a.sort || 0) - (b.sort || 0)) || (a.id - b.id))
                             .map((item) => item.component)
                     }
                 </Phone>

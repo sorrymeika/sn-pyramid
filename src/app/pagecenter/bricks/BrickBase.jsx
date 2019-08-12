@@ -82,7 +82,7 @@ export class BrickBase extends Component {
             return;
         }
 
-        this.brickData = brick.data;
+        this.brickData = JSON.parse(JSON.stringify(brick.data));
         this.brickProps = brick.props;
 
         const defaultData = this.constructor.defaultData;
@@ -92,8 +92,6 @@ export class BrickBase extends Component {
         if (this.brickData && this.brickData.products) {
             this.brickData.products = this.brickData.products.slice(0, 20);
         }
-
-        this.patchImages();
 
         this.model.set({
             brick,

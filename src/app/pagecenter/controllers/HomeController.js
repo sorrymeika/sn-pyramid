@@ -24,24 +24,7 @@ class HomeController extends DecorationBase {
                 : {}
         }));
 
-        console.log(this.decorationService.pageState);
-
-        const bricksRes = await this.pageService.editBricks(pageState.id, pageState.historyId);
-        if (!bricksRes.success) {
-            message.error(bricksRes.message);
-            this.decorationService.warning = bricksRes.message;
-            return;
-        }
-        this.decorationService.bricks = bricksRes.data;
-
-        this.decorationService.bricks.withMutations((bricks) => {
-            bricks.add({
-                id: 1,
-                data: {},
-                props: {},
-                templateId: this.decorationService.templates[0].id
-            });
-        });
+        this.decorationService.loadBricks(pageState.id, pageState.historyId);
     }
 }
 

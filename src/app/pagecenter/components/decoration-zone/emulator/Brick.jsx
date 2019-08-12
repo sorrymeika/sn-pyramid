@@ -14,7 +14,7 @@ import { createBrick } from '../../../bricks';
             bricks: decorationService.bricks,
             selectedBrickId: decorationService.selectedBrickId,
             onSelectBrick: decorationService.onSelectBrick.emit,
-            onSwapBrick: decorationService.onSwapBrick.emit,
+            onSwapBrick: (fromIndex, toIndex) => decorationService.onSwapBrick.emit({ fromIndex, toIndex }),
             onDeleteBrick: decorationService.onDeleteBrick.emit,
         }
         : {}
@@ -57,7 +57,6 @@ class Brick extends Component {
 
         return (
             <DragItem
-                key={brick.id}
                 insertable={!isStickyBar}
                 data={brick}
                 className={`py_pagecenter_emulator_brick ${className ? " " + className : ""}`}

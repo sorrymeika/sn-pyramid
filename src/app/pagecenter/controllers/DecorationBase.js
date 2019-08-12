@@ -26,6 +26,10 @@ export class DecorationBase {
         return this.decorationService.warning;
     }
 
+    @injectable get isSettingVisible() {
+        return this.decorationService.isSettingVisible;
+    }
+
     constructor() {
         this.templateService = new TemplateService();
         this.pageService = new PageService();

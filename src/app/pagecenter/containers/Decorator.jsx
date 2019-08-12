@@ -8,7 +8,7 @@ import { PublishButton } from '../components/topbar/PublishButton';
 import { DecorationZone, Emulator, PhoneHead } from '../components/decoration-zone';
 import { Settings, TemplateInfo } from '../components/settings';
 
-function Decorator() {
+function Decorator({ isSettingVisible }) {
     return (
         <div className="py_pagecenter_window">
             <Sidebar></Sidebar>
@@ -27,9 +27,15 @@ function Decorator() {
                     >
                     </Emulator>
                 </DecorationZone>
-                <Settings>
-                    <TemplateInfo></TemplateInfo>
-                </Settings>
+                {
+                    isSettingVisible
+                        ? (
+                            <Settings>
+                                <TemplateInfo></TemplateInfo>
+                            </Settings>
+                        )
+                        : null
+                }
             </Main>
         </div>
     );

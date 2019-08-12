@@ -16,7 +16,9 @@ export class ImagesSettings extends SettingsBase {
     }];
 
     onImagesChange(data) {
-        console.log('onImagesChange:', data);
+        this.data.withMutations((model) => {
+            model.set('images', data);
+        });
     }
 
     render() {
@@ -30,17 +32,11 @@ export class ImagesSettings extends SettingsBase {
                 dataSource: '{cols}'
             }
         }, {
-            type: 'input',
-            props: {
-                placeholder: '请输入合法链接',
-                field: 'data.images[0].link',
-                max: 100
-            }
-        }, {
             type: 'inputGroup',
             props: {
                 title: '图片',
                 onChange: '{onImagesChange}',
+                minNum: 2,
                 items: [{
                     type: 'link',
                     props: {

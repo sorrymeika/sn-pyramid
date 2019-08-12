@@ -14,7 +14,6 @@ export class SettingsBase extends JsonComponent {
 
         const didMount = this.componentDidMount;
         this.componentDidMount = () => {
-            console.log(this, this.asModel());
             this.asModel().observe('data', (data) => {
                 this.props.onChange && this.props.onChange(data);
             });

@@ -1,25 +1,28 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { inject } from 'snowball/app';
 import { createSettings } from '../../bricks';
-import { JsonComponent, Form } from 'nuclear';
+import { Form } from 'nuclear';
 
 
-class Settings extends JsonComponent {
+class Settings extends Component {
     constructor(props) {
         super(props);
         this.formRef = React.createRef();
-        this.data = props.data;
+        this.data = { ...props.currentBrick };
     }
 
     handleDataChange = (data) => {
         this.data = data;
-        console.log(data);
     }
 
     handleOk = () => {
-        this.formRef.current.form.validateFields((err) => {
+        this.formRef.current.form.validateFields(this.data, (err) => {
             if (!err) {
-                this.props.onOk(this.data);
+                this.props.onOk({
+                    ...this.props.currentBrick,
+                    data: JSON.stringify(this.data),
+                    props: JSON.stringify(this.props.currentBrick.props)
+                });
             }
         });
     }
