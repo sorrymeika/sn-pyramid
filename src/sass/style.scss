@@ -4,6 +4,6 @@
 
 @import '~antd/dist/antd.css';
 
-.app-view, .app-skeleton { background: #fff; }
+@import "~nuclear/sass/app.scss";
 
 @import 'pagecenter.scss';
