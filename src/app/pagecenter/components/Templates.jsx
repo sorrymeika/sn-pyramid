@@ -92,7 +92,7 @@ function Templates(props) {
                                                 ? (
                                                     <div
                                                         key={template.id}
-                                                        className={`sp_decoration__template_item fl_l`}
+                                                        className={`py_pagecenter_template_item fl_l`}
                                                         style={{ opacity: '.5', cursor: "default" }}
                                                         onMouseDown={() => {
                                                             excludeItems.length <= 0
@@ -112,7 +112,7 @@ function Templates(props) {
                                                 : (
                                                     <DragSource
                                                         key={template.id}
-                                                        className={`sp_decoration__template_item fl_l`}
+                                                        className={`py_pagecenter_template_item fl_l`}
                                                         previewElement={previewElement}
                                                         data={template}
                                                         position={template.props.isFixed ? 'fixed' : ''}

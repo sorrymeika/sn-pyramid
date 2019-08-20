@@ -8,7 +8,7 @@ class PhoneHead extends Component {
 
         return (
             <div className="ps_r of_h" style={{ height: 64 }}>
-                <img alt="" className="w_full dp_b" src={'images/phone_head.jpg'} />
+                <img alt="" className="w_full dp_b" src={'./images/phone_head.jpg'} />
                 <div
                     className="ps_a dock_tbr ta_c to_e"
                     style={{

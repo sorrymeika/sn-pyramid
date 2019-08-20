@@ -1,18 +1,18 @@
-.py_pagecenter_window { width: 100vw; height: 100vh; }
+.py_pagecenter_window { width: 100vw; height: 100vh; background: #fff; }
 .py_pagecenter_main { position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
 
 .py_pagecenter_sidebar { width: 50px; padding: 0 10px; border-right: 1px solid #ddd; }
 .py_pagecenter_sidebar a { display: block; margin: 10px 0; padding: 10px 0; border-bottom: 1px solid #eee; font-size: 14px; color: #666; text-align: center; }
-.py_pagecenter_sidebar a.active,.py_pagecenter_sidebar a.active i { color: #f20 }
+.py_pagecenter_sidebar a.active,.py_pagecenter_sidebar a.active i { color: #cc3851 }
 .py_pagecenter_sidebar i { font-size: 20px; }
 .py_pagecenter_sidebar ~ .py_pagecenter_main, .py_pagecenter_sidebar ~ .py_pagecenter_topbar { left: 50px; }
 
 .py_pagecenter_templates { display: flex; width: 160px; padding: 10px 0; justify-content: flex-start; flex-wrap: wrap; border-right: 1px solid #ddd; -webkit-user-select: none; -webkit-touch-callout: none; user-select: none; }
 .py_pagecenter_templates_scroll::-webkit-scrollbar{ width: 0; height: 0; }
-.sp_decoration__template_item { cursor: move; text-align: center; padding: 5px 0 5px 0; width: 79px; -webkit-user-select: none; -webkit-touch-callout: none; user-select: none; }
-.sp_decoration__template_item:nth-child(2n+1) { clear: both; }
-.sp_decoration__template_item p { font-size: 12px; overflow: hidden; text-overflow: ellipsis; -webkit-user-select: none; -webkit-touch-callout: none; user-select: none; }
-.sp_decoration__template_item img { width: 40px; height: 40px; margin: 0 auto; pointer-events: none; display: block; }
+.py_pagecenter_template_item { cursor: move; text-align: center; padding: 5px 0 5px 0; width: 79px; -webkit-user-select: none; -webkit-touch-callout: none; user-select: none; }
+.py_pagecenter_template_item:nth-child(2n+1) { clear: both; }
+.py_pagecenter_template_item p { font-size: 12px; overflow: hidden; text-overflow: ellipsis; -webkit-user-select: none; -webkit-touch-callout: none; user-select: none; }
+.py_pagecenter_template_item img { width: 40px; height: 40px; margin: 0 auto; pointer-events: none; display: block; }
 
 .py_pagecenter_topbar { border-bottom: 1px solid #ddd; height: 50px; }
 .py_pagecenter_topbar ~ .py_pagecenter_main { top: 50px; }
@@ -43,4 +43,3 @@
 .py_pagecenter_settings_ft button:last-child { border-right: 0; }
 .py_pagecenter_settings_cancel { color: #666; }
 .py_pagecenter_settings_ok { color: #108ee9; }
-

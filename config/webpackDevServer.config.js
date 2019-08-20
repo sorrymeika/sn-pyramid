@@ -89,6 +89,17 @@ module.exports = function (proxy, allowedHost) {
         require(paths.proxySetup)(app);
       }
 
+      app.use("*", function (req, res, next) {
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
+        res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+        if (req.method === 'OPTIONS') {
+          res.send(200);
+        } else {
+          next();
+        }
+      });
+
       app.use("/market_server", httpProxy("localhost", 7002, (url) => url));
 
       // This lets us fetch source contents from webpack for the error overlay

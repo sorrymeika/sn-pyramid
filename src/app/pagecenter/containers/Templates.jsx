@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Button, Table, Modal, Form, Input, Select, Checkbox, InputNumber, message, Divider } from "antd";
-import { createControlledForm, ImageUpload } from "nuclear";
+import { createControlledForm, ImageUpload, NCMain, NCToolbar, NCCard, NCBreadcrumb } from "nuclear";
 import { TEMPLATE_GROUPS } from "../constants/TEMPLATE_GROUPS";
 
 const FormItem = Form.Item;
@@ -94,53 +94,56 @@ function Templates({ dataSource, search, addTemplate, updateTemplate }) {
     }];
 
     return (
-        <div className="pd_m">
-            <div className="flex mb_m">
-                <div className="flex_1">
+        <NCMain>
+            <NCBreadcrumb items={['模板管理']} />
+            <NCCard>
+                <NCToolbar>
                     <Button onClick={() => setModalVisible(true)}>新增模版</Button>
-                </div>
-                <SearchForm
-                    data={searchData}
-                    onChange={setSearchData}
-                    onSearch={() => search(searchData)}
-                ></SearchForm>
-            </div>
-            <AdditionModal
-                visible={modalVisible}
-                onCancel={() => setModalVisible(false)}
-                onOk={
-                    (data) => addTemplate(data)
-                        .then((res) => {
-                            message.success('添加成功');
-                            setModalVisible(false);
-                        })
-                        .catch(e => {
-                            message.error(e.message || '添加失败');
-                        })
-                }
-            />
-            <EditModal
-                visible={editModalVisible}
-                formData={formData}
-                setFormData={setFormData}
-                onCancel={() => setEditModalVisible(false)}
-                onOk={
-                    (data) => updateTemplate(data)
-                        .then((res) => {
-                            message.success('修改成功');
-                            setEditModalVisible(false);
-                        })
-                        .catch(e => {
-                            message.error(e.message || '修改失败');
-                        })
-                }
-            />
-            <Table
-                rowKey={'id'}
-                dataSource={dataSource}
-                columns={columns}
-            />
-        </div>
+                    <NCToolbar.Right>
+                        <SearchForm
+                            data={searchData}
+                            onChange={setSearchData}
+                            onSearch={() => search(searchData)}
+                        ></SearchForm>
+                    </NCToolbar.Right>
+                </NCToolbar>
+                <AdditionModal
+                    visible={modalVisible}
+                    onCancel={() => setModalVisible(false)}
+                    onOk={
+                        (data) => addTemplate(data)
+                            .then((res) => {
+                                message.success('添加成功');
+                                setModalVisible(false);
+                            })
+                            .catch(e => {
+                                message.error(e.message || '添加失败');
+                            })
+                    }
+                />
+                <EditModal
+                    visible={editModalVisible}
+                    formData={formData}
+                    setFormData={setFormData}
+                    onCancel={() => setEditModalVisible(false)}
+                    onOk={
+                        (data) => updateTemplate(data)
+                            .then((res) => {
+                                message.success('修改成功');
+                                setEditModalVisible(false);
+                            })
+                            .catch(e => {
+                                message.error(e.message || '修改失败');
+                            })
+                    }
+                />
+                <Table
+                    rowKey={'id'}
+                    dataSource={dataSource}
+                    columns={columns}
+                />
+            </NCCard>
+        </NCMain>
     );
 }
 

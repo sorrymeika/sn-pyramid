@@ -1,27 +1,7 @@
-import { createApplication } from "snowball/app";
-import { Server } from "sn-cornerstone";
-import "./sass/style.scss";
-import router from "./app/router";
-
-const projects = {
-};
-
-const marketServer = new Server({
-    baseUri: '/market_server'
-});
-
-createApplication({
-    projects,
-    routes: router,
-    autoStart: true,
-    extend() {
-        return {
-            marketServer
-        };
-    },
-    options: {
-        disableTransition: true
-    }
-}, document.getElementById('root'), () => {
-    console.log('application start!');
-});
+if (process.env.NODE_ENV === 'production') {
+    require('./index.prod');
+} else {
+    window.SNOWBALL_MAIN_APP
+        ? require('./index.prod')
+        : require('./index.dev');
+}
