@@ -1,5 +1,5 @@
 import { JsonComponent, Atom } from "nuclear";
-import { observable } from "snowball";
+import { observable, util } from "snowball";
 
 const iconStyle = { cursor: 'pointer', width: 24, height: 24, lineHeight: '25px', color: '#333', border: '1px solid #333', borderRadius: 2 };
 
@@ -15,27 +15,38 @@ class InputGroupList extends JsonComponent {
         super(props);
 
         this.id = 0;
-        const data = (props.value || []).map((item) => {
-            return {
-                ...item,
-                id: this.id++
-            };
-        });
-        if (data.length < this.props.minNum) {
-            for (let i = data.length; i < this.props.minNum; i++) {
-                data.push({
-                    ...this.props.defaultItemData,
-                    id: this.id++
-                });
-            }
-        }
-        this.data = data;
+        this._resetData(this.props);
     }
 
     componentDidMount() {
         this.asModel().observe('data', (data) => {
             this.props.onChange && this.props.onChange(data);
         });
+    }
+
+    shouldComponentUpdate(nextProps) {
+        if (nextProps.value !== this.props.value && !util.equals(nextProps.value, this.data)) {
+            this._resetData(nextProps);
+        }
+        return true;
+    }
+
+    _resetData(props) {
+        const data = (props.value || []).map((item) => {
+            return {
+                ...item,
+                id: this.id++
+            };
+        });
+        if (data.length < props.minNum) {
+            for (let i = data.length; i < props.minNum; i++) {
+                data.push({
+                    ...props.defaultItemData,
+                    id: this.id++
+                });
+            }
+        }
+        this.data = data;
     }
 
     removeItem(item) {

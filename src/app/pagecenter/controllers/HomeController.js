@@ -28,4 +28,4 @@ class HomeController extends DecorationBase {
     }
 }
 
-export { HomeController };
+export default HomeController;

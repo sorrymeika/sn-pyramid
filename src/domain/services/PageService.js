@@ -1,6 +1,23 @@
 import { Service } from "snowball/app";
 
 class PageService extends Service {
+    getPageList({ type, status, keywords, pageIndex, pageSize }) {
+        const params = {
+            type,
+            status,
+            pageIndex,
+            pageSize
+        };
+        if (keywords) {
+            if (/^\d+$/.test(keywords)) {
+                params.id = Number(keywords);
+            } else {
+                params.name = keywords;
+            }
+        }
+        return this.ctx.marketServer.post('/page/list', params);
+    }
+
     editHome() {
         return this.ctx.marketServer.post('/page/editHome');
     }

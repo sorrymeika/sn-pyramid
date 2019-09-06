@@ -12,6 +12,12 @@ const templateTypes = [{
 }, {
     type: TEMPLATE_TYPES.SLIDER,
     name: '图片轮播'
+}, {
+    type: TEMPLATE_TYPES.NAV_BALL,
+    name: '导航球'
+}, {
+    type: TEMPLATE_TYPES.IMAGE_CARD,
+    name: '图文卡片'
 }];
 
 const pageTypes = [{

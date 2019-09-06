@@ -63,18 +63,20 @@ export class DecorationService extends Service {
 
     async handleDrop(e) {
         const { sourceType, status, source, target } = e;
+        const targetBrick = target.data;
 
         if (sourceType == 'new') {
             const template = source.data;
             const brick = {
-                data: {},
+                data: null,
                 props: {},
                 sort: 0,
                 templateId: template.id
             };
-            const targetBrick = target.data;
             if (status === 'append') {
                 brick.sort = 2048;
+            } else if (status === 'before') {
+                brick.sort = targetBrick.sort / 2;
             } else if (status === 'after') {
                 for (let i = 0; i < this.bricks.length; i++) {
                     if (this.bricks[i] == targetBrick) {
@@ -86,8 +88,6 @@ export class DecorationService extends Service {
             } else if (status === 'dragout') {
                 return;
             }
-
-            console.log('xxxxxx', brick);
 
             let newBrickModel;
             this.bricks.withMutations((bricks) => {
@@ -106,6 +106,10 @@ export class DecorationService extends Service {
                     id: res.data.id,
                     type: res.data.type
                 });
+                this.selectBrick({
+                    brick: newBrickModel.attributes,
+                    template: this.templates.find((tpl) => tpl.id === newBrickModel.attributes.templateId)
+                });
                 this.isSaveButtonDisabled = false;
             } else {
                 message.error(res.message);
@@ -117,6 +121,28 @@ export class DecorationService extends Service {
             const brick = source.data;
             if (status === 'dragout') {
                 this.deleteBrick(brick);
+            } else if (status === 'after') {
+                const targetIndex = this.bricks.findIndex((item) => item.id == targetBrick.id);
+                const sourceBrick = this.bricks.find((item) => item.id == brick.id);
+
+                sourceBrick.withMutations((sourceBrickModel) => {
+                    sourceBrickModel.set({
+                        sort: targetIndex === this.bricks.length - 1
+                            ? targetBrick.sort + 2048
+                            : (targetBrick.sort + ((this.bricks[targetIndex + 1].sort - targetBrick.sort) / 2))
+                    });
+                });
+            } else if (status === 'before') {
+                const targetIndex = this.bricks.findIndex((item) => item.id == targetBrick.id);
+                const sourceBrick = this.bricks.find((item) => item.id == brick.id);
+
+                sourceBrick.withMutations((sourceBrickModel) => {
+                    sourceBrickModel.set({
+                        sort: targetIndex === 0
+                            ? targetBrick.sort / 2
+                            : (this.bricks[targetIndex - 1].sort + ((targetBrick.sort - this.bricks[targetIndex - 1].sort) / 2))
+                    });
+                });
             }
         }
     }
@@ -133,7 +159,7 @@ export class DecorationService extends Service {
             bricks.swap(fromIndex, toIndex);
             bricks.each((brick, i) => {
                 brick.set({
-                    sort: i * 2048
+                    sort: (i + 1) * 2048
                 });
             });
         });
@@ -148,6 +174,10 @@ export class DecorationService extends Service {
         if (res.success) {
             message.success('删除成功！');
             this.isSaveButtonDisabled = true;
+            if (this.currentBrick.id === brick.id) {
+                this.currentBrick = {};
+                this.isSettingVisible = false;
+            }
         } else {
             message.error(res.message);
         }
@@ -158,7 +188,7 @@ export class DecorationService extends Service {
 
         const res = await this.pageService.updateBrick(this.pageState.id, {
             ...data,
-            data: JSON.stringify(data.data),
+            data: JSON.stringify(data.data || {}),
             props: JSON.stringify(data.props),
         }, this.pageState.historyId);
 
@@ -166,7 +196,7 @@ export class DecorationService extends Service {
             this.currentBrick = this.bricks.find((item) => (item.id == this.currentBrick.id))
                 .withMutations((brick) => {
                     brick.set({
-                        data: data.data,
+                        data: data.data || {},
                         props: data.props
                     });
                 });
@@ -187,7 +217,7 @@ export class DecorationService extends Service {
         this.bricks.withMutations((bricks) => {
             bricks.each((brick, i) => {
                 brick.set({
-                    sort: i * 2048
+                    sort: (i + 1) * 2048
                 });
                 sortings.push(brick.pick(['id', 'sort']));
             });
@@ -199,12 +229,21 @@ export class DecorationService extends Service {
         } else {
             message.error(res.message);
         }
+        return res.success;
     }
 
     async publishPage() {
-        if (!this.isSaveButtonDisabled) {
-            await this.savePage();
+        if (this.bricks.some((brick) => !brick.data)) {
+            message.error('请正确设置每个模块！');
+            return;
         }
+
+        if (!this.isSaveButtonDisabled) {
+            if (!await this.savePage()) {
+                return;
+            }
+        }
+
         const { id, historyId } = this.pageState;
         const res = await this.pageService.publishPage(id, historyId);
         if (res.success) {
@@ -212,7 +251,7 @@ export class DecorationService extends Service {
             this.isPublishButtonDisabled = true;
             setTimeout(() => {
                 window.location.reload(true);
-            }, 3000);
+            }, 2000);
         } else {
             message.error(res.message);
         }
