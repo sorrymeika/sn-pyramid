@@ -9,6 +9,7 @@ function Templates(props) {
     let { bricks, templates } = props;
     const groups = util.groupBy('groupId', templates);
     const [selected, setSelected] = useState(0);
+
     const previewElement = useMemo(() => {
         const preview = document.createElement('div');
         preview.style.pointerEvents = 'none';

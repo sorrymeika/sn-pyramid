@@ -1,28 +1,23 @@
 import React, { Component } from 'react';
 import { inject } from 'snowball/app';
 import { createSettings } from '../../bricks';
-import { Form } from 'nuclear';
-
+import { message } from 'antd';
 
 class Settings extends Component {
     constructor(props) {
         super(props);
         this.formRef = React.createRef();
-        this.data = { ...props.currentBrick };
-    }
-
-    handleDataChange = (data) => {
-        this.data = data;
     }
 
     handleOk = () => {
-        this.formRef.current.form.validateFields(this.data, (err) => {
+        this.formRef.current.validateFields((err, data) => {
             if (!err) {
                 this.props.onOk({
                     ...this.props.currentBrick,
-                    data: JSON.stringify(this.data),
-                    props: JSON.stringify(this.props.currentBrick.props)
+                    data
                 });
+            } else {
+                message.error('请完整填写表单!');
             }
         });
     }
@@ -39,20 +34,16 @@ class Settings extends Component {
                 <div className="py_pagecenter_settings_con">
                     {children}
                     <div className="pl_l pr_l">
-                        <Form
-                            ref={this.formRef}
-                        >
-                            {
-                                currentBrick && currentBrick.id
-                                    ? createSettings(currentTemplate.type, {
-                                        brick: currentBrick,
-                                        template: currentTemplate,
-                                        data: currentBrick.data,
-                                        onChange: this.handleDataChange,
-                                    })
-                                    : null
-                            }
-                        </Form>
+                        {
+                            currentBrick && currentBrick.id
+                                ? createSettings(currentTemplate.type, {
+                                    ref: this.formRef,
+                                    brick: currentBrick,
+                                    template: currentTemplate,
+                                    data: currentBrick.data
+                                })
+                                : null
+                        }
                     </div>
                 </div>
                 <div className="py_pagecenter_settings_ft flex">

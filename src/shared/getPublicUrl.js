@@ -1,8 +1,8 @@
 import { joinPath } from "snowball/utils";
 
 export default function getPublicUrl(src) {
-    const publicUrl = process.env.PUBLIC_URL;
+    const publicUrl = process.env.REACT_APP_PROJECT_URL;
     return src
-        ? publicUrl
-        : joinPath(publicUrl, src);
+        ? joinPath(publicUrl, src)
+        : publicUrl;
 }

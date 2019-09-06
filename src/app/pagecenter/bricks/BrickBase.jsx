@@ -35,7 +35,6 @@ export class BrickBase extends Component {
                 </div>`
             ),
             attributes: {
-                visible: true,
                 env: {
                     IS_BG: true,
                 },
@@ -49,7 +48,11 @@ export class BrickBase extends Component {
             }
         });
 
-        this.processData(brick);
+        this._processData(brick);
+
+        this.model.observe(() => {
+            this.rectChange();
+        });
     }
 
     setRef = (ref) => {
@@ -65,43 +68,42 @@ export class BrickBase extends Component {
         } = nextProps;
 
         if (this.brickData != brick.data || this.brickProps != brick.props) {
-            this.processData(brick);
+            this._processData(brick);
         }
         return false;
+    }
+
+    componentWillUnmount() {
+        this.model.destroy();
     }
 
     template(template) {
         let html = template.html;
         const style = 'padding: 20px; text-align: center; border: 1px solid #ddd; background:#fff';
-        return `<div sn-if="!brickData||util.isEmptyObject(brickData)" style="${style};padding: 20px 4px;">${template.name}</div><div sn-else>${html}</div>`;
+        return `<div sn-if="!data||util.isEmptyObject(data)" style="${style};padding: 20px 4px;">${template.name}</div><div sn-else>${html}</div>`;
     }
 
-    async processData(brick) {
+    async _processData(brick) {
         if (!brick) {
             this.rectChange();
             return;
         }
 
+
         this.brickData = JSON.parse(JSON.stringify(brick.data));
         this.brickProps = brick.props;
+
+        this.processData && this.model.set(this.processData(this.brickData));
 
         const defaultData = this.constructor.defaultData;
         if (defaultData && util.isEmptyObject(this.brickData)) {
             this.brickData = defaultData;
         }
-        if (this.brickData && this.brickData.products) {
-            this.brickData.products = this.brickData.products.slice(0, 20);
-        }
 
         this.model.set({
-            brick,
             data: this.brickData,
-            brickProps: this.brickProps
+            props: this.brickProps
         });
-
-        await this.patchData(this.model, this.brickData, brick);
-
-        this.rectChange();
     }
 
     patchImages() {
@@ -121,12 +123,6 @@ export class BrickBase extends Component {
         if (this.brickData.src) {
             this.brickData.src = SFS + this.brickData.src;
         }
-    }
-
-    /**
-     * 订正数据为模版所需要的数据
-     */
-    patchData() {
     }
 
     rectChange() {

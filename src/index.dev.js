@@ -1,14 +1,14 @@
 
 require('./sass/style.dev.scss');
-require('snowball');
 require('nuclear');
 
-const { Server } = require('sn-cornerstone');
+const { Server, Sfs } = require('sn-cornerstone');
+const { env } = require("snowball");
 const { createApplication } = require("snowball/app");
 const router = require("./app/router");
 
 const marketServer = new Server({
-    baseUri: '/market_server'
+    baseUrl: '/market_server'
 });
 
 createApplication({
@@ -16,6 +16,12 @@ createApplication({
     autoStart: true,
     extend() {
         return {
+            env: {
+                ...env,
+                IMAGE_UPLOAD_URL: process.env.REACT_APP_IMAGE_UPLOAD_URL,
+                SFS_URL: process.env.REACT_APP_SFS_URL
+            },
+            sfs: new Sfs(process.env.REACT_APP_SFS_URL),
             marketServer
         };
     },

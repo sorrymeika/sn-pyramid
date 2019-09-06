@@ -19,5 +19,35 @@ export class SettingsBase extends JsonComponent {
             });
             didMount && didMount.call(this);
         };
+
+        const renderJson = this.renderJson;
+
+        this.renderJson = () => {
+            return [{
+                type: 'form',
+                props: {
+                    ref: (ref) => {
+                        this.form = ref && ref.form;
+                    }
+                },
+                children: renderJson.call(this)
+            }];
+        };
+    }
+
+    shouldComponentUpdate(nextProps) {
+        if (nextProps.data != this.props.data) {
+            this.data = {
+                ...this.constructor.defaultData,
+                ...nextProps.data,
+            };
+        }
+        return true;
+    }
+
+    validateFields = (cb) => {
+        this.form && this.form.validateFields((err) => {
+            cb(err, this.data);
+        });
     }
 }

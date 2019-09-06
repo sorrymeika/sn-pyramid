@@ -62,7 +62,6 @@ export class DecorationService extends Service {
     }
 
     async handleDrop(e) {
-        console.log(e);
         const { sourceType, status, source, target } = e;
 
         if (sourceType == 'new') {
@@ -155,8 +154,22 @@ export class DecorationService extends Service {
     }
 
     async submitSetting(data) {
-        const res = await this.pageService.updateBrick(this.pageState.id, data, this.pageState.historyId);
+        console.log(data);
+
+        const res = await this.pageService.updateBrick(this.pageState.id, {
+            ...data,
+            data: JSON.stringify(data.data),
+            props: JSON.stringify(data.props),
+        }, this.pageState.historyId);
+
         if (res.success) {
+            this.currentBrick = this.bricks.find((item) => (item.id == this.currentBrick.id))
+                .withMutations((brick) => {
+                    brick.set({
+                        data: data.data,
+                        props: data.props
+                    });
+                });
             this.isSettingVisible = false;
             this.isSaveButtonDisabled = false;
         } else {

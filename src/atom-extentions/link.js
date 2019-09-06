@@ -1,4 +1,4 @@
-import { JsonComponent, registerAtom } from "nuclear";
+import { JsonComponent, Atom } from "nuclear";
 import { observable } from "snowball";
 import { Icon, Modal } from "antd";
 import React from "react";
@@ -12,7 +12,7 @@ class Link extends JsonComponent {
 
     constructor(props) {
         super(props);
-        this.value = props.value || '';
+        this.value = props.value;
     }
 
     componentDidMount() {
@@ -21,11 +21,18 @@ class Link extends JsonComponent {
         });
     }
 
+    shouldComponentUpdate(nextProps) {
+        if (nextProps.value != this.value) {
+            this.value = nextProps.value;
+        }
+        return true;
+    }
+
     handleLinkClick = () => {
         this.modalVisible = true;
     }
 
-    render() {
+    renderJson() {
         return [{
             type: 'input',
             props: {
@@ -53,6 +60,6 @@ class Link extends JsonComponent {
     }
 }
 
-registerAtom('link', Link);
+Atom.registerAtom('link', Atom.wrapFormItem(Link));
 
 export { Link };
