@@ -1,8 +1,13 @@
 import { BrickBase } from "../BrickBase";
 
-export class Images extends BrickBase {
+class Images extends BrickBase {
     processData(data) {
         return {
+            cols: data.cols,
+            images: data.images && data.images.map((img) => ({
+                ...img,
+                src: this.props.ctx.sfs.completeUrl(img.src)
+            }))
         };
     }
 
@@ -11,3 +16,5 @@ export class Images extends BrickBase {
         <div sn-else>${template.html}</div>`;
     }
 }
+
+export { Images };

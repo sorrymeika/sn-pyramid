@@ -13,7 +13,9 @@ function Decorator({ isSettingVisible }) {
         <div className="py_pagecenter_window">
             <Sidebar></Sidebar>
             <Topbar>
-                <Left></Left>
+                <Left>
+                    <div className="ml_m cl_000">页面装修</div>
+                </Left>
                 <Right>
                     <SaveButton></SaveButton>
                     <PublishButton></PublishButton>

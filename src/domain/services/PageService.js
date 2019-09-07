@@ -18,12 +18,18 @@ class PageService extends Service {
         return this.ctx.marketServer.post('/page/list', params);
     }
 
-    editHome() {
-        return this.ctx.marketServer.post('/page/editHome');
-    }
-
     addPage(page) {
         return this.ctx.marketServer.post('/page/add', page);
+    }
+
+    editPage(pageId) {
+        return this.ctx.marketServer.post('/page/edit', {
+            pageId
+        });
+    }
+
+    editHome() {
+        return this.ctx.marketServer.post('/page/editHome');
     }
 
     editBricks(pageId, historyId) {

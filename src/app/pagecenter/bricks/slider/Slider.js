@@ -4,9 +4,13 @@ import { BrickBase } from "../BrickBase";
 
 registerComponent('slider', SliderComponent);
 
-export class Slider extends BrickBase {
+class Slider extends BrickBase {
     processData(data) {
         return {
+            images: data.images && data.images.map((img) => ({
+                ...img,
+                src: this.props.ctx.sfs.completeUrl(img.src)
+            }))
         };
     }
 
@@ -15,3 +19,5 @@ export class Slider extends BrickBase {
         <div sn-else>${template.html}</div>`;
     }
 }
+
+export { Slider };

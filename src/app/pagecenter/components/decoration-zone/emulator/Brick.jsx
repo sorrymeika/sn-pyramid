@@ -7,9 +7,10 @@ import { createBrick } from '../../../bricks';
 /**
  * 模块的容器，提供拖拽、编辑等功能
  */
-@inject(({ decorationService }) => (
+@inject(({ decorationService, ctx }) => (
     decorationService
         ? {
+            ctx,
             pageState: decorationService.pageState,
             bricks: decorationService.bricks,
             selectedBrickId: decorationService.selectedBrickId,
@@ -45,6 +46,7 @@ class Brick extends Component {
             selectedBrickId,
             onSelectBrick,
             onSwapBrick,
+            ctx
         } = this.props;
 
         const isFixed = template.props.isFixed;
@@ -52,7 +54,8 @@ class Brick extends Component {
         const brickElement = createBrick(template.type, {
             page: pageState,
             brick,
-            template
+            template,
+            ctx
         });
 
         return (

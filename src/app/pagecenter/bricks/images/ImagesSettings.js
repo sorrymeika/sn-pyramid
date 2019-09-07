@@ -54,8 +54,9 @@ export class ImagesSettings extends SettingsBase {
                 items: [{
                     type: 'image',
                     props: {
-                        field: 'image',
+                        field: 'src',
                         max: 1,
+                        maxSize: 100,
                         help: '上传格式为png、jpg、gif，大小100kb以下的图片',
                         rules: [{ required: true, message: '必须上传图片' }]
                     }

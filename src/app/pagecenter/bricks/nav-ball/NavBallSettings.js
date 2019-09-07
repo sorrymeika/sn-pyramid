@@ -46,9 +46,14 @@ export class NavBallSettings extends SettingsBase {
                 items: [{
                     type: 'image',
                     props: {
-                        field: 'image',
+                        field: 'src',
                         max: 1,
-                        help: '上传格式为png、jpg、gif，大小20kb以下的图片',
+                        restrict: {
+                            width: 96,
+                            height: 96
+                        },
+                        maxSize: 20,
+                        help: '上传格式为png、jpg、gif，96x96，大小20kb以下的图片',
                         rules: [{ required: true, message: '必须上传图片' }]
                     }
                 }, {

@@ -27,9 +27,15 @@ export class SliderSettings extends SettingsBase {
                 items: [{
                     type: 'image',
                     props: {
-                        field: 'image',
+                        field: 'src',
                         max: 1,
-                        help: '上传格式为png、jpg，大小100kb以下的图片',
+                        restrict: {
+                            width: 750,
+                            minHeight: 100,
+                            maxHeight: 400
+                        },
+                        maxSize: 60,
+                        help: '上传格式为png、jpg，宽750，高100~400，大小60kb以下的图片',
                         rules: [{ required: true, message: '必须上传图片' }]
                     }
                 }, {

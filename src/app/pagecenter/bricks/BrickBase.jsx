@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { util, ViewModel } from 'snowball';
 
-const SFS = '';
-
 export class BrickBase extends Component {
     model;
     node;
@@ -106,25 +104,6 @@ export class BrickBase extends Component {
         });
     }
 
-    patchImages() {
-        if (Array.isArray(this.brickData.images)) {
-            this.brickData.images.forEach((img) => {
-                img.src = SFS + (this.brickData.spriteImage || img.src);
-            });
-        }
-        if (Array.isArray(this.brickData.floors)) {
-            this.brickData.floors.forEach((floor) => {
-                floor.src = SFS + floor.src;
-            });
-        }
-        if (this.brickData.titleImage) {
-            this.brickData.titleImage = SFS + this.brickData.titleImage;
-        }
-        if (this.brickData.src) {
-            this.brickData.src = SFS + this.brickData.src;
-        }
-    }
-
     rectChange() {
         this.model.nextTick(() => {
             this.props.onRectChange && this.props.onRectChange();
@@ -132,6 +111,6 @@ export class BrickBase extends Component {
     }
 
     render() {
-        return <div ref={this.setRef} />;
+        return <div ref={this.setRef} style={{ minHeight: 50 }}/>;
     }
 }

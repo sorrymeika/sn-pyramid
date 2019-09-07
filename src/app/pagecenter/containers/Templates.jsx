@@ -194,7 +194,7 @@ function AdditionModal({ visible, onCancel, onOk }) {
                 });
             }}
             width={'96%'}
-            style={{ marginTop: '-100px' }}
+            style={{ marginTop: '-100px', maxWidth: 800 }}
         >
             <TemplateForm
                 ref={formRef}
@@ -223,7 +223,7 @@ function EditModal({ formData, visible, onCancel, onOk }) {
                 });
             }}
             width={'96%'}
-            style={{ marginTop: '-100px' }}
+            style={{ marginTop: '-100px', maxWidth: 800 }}
         >
             <TemplateForm
                 ref={formRef}
@@ -242,6 +242,7 @@ const TemplateForm = React.forwardRef(({ defaultData }, ref) => {
         >
             <NCFormItem
                 label="模板名称"
+                labelSpan={5}
                 field="name"
                 rules={[{ required: true, message: '请输入模板名称!' }]}
             >
@@ -251,6 +252,7 @@ const TemplateForm = React.forwardRef(({ defaultData }, ref) => {
             </NCFormItem>
             <NCFormItem
                 label="模板类型"
+                labelSpan={5}
                 field="type"
                 rules={[{ required: true, message: '请选择模板类型!' }]}
             >
@@ -270,6 +272,7 @@ const TemplateForm = React.forwardRef(({ defaultData }, ref) => {
             </NCFormItem>
             <NCFormItem
                 label="支持页面类型"
+                labelSpan={5}
                 field="supportPageTypes"
             >
                 <Checkbox.Group
@@ -278,6 +281,7 @@ const TemplateForm = React.forwardRef(({ defaultData }, ref) => {
             </NCFormItem>
             <NCFormItem
                 label="图片"
+                labelSpan={5}
                 field="image"
             >
                 <SFSImageUpload
@@ -291,6 +295,7 @@ const TemplateForm = React.forwardRef(({ defaultData }, ref) => {
             </NCFormItem>
             <NCFormItem
                 label="排序"
+                labelSpan={5}
                 field="sorting"
                 rules={[{ required: true, message: '请输入排序!' }]}
             >
@@ -300,6 +305,7 @@ const TemplateForm = React.forwardRef(({ defaultData }, ref) => {
             </NCFormItem>
             <NCFormItem
                 label="模板分组"
+                labelSpan={5}
                 field="groupId"
                 rules={[{ required: true, message: '请选择模板分组!' }]}
             >
@@ -319,6 +325,7 @@ const TemplateForm = React.forwardRef(({ defaultData }, ref) => {
             </NCFormItem>
             <NCFormItem
                 label="预览"
+                labelSpan={5}
                 field="preview"
             >
                 <Input.TextArea
@@ -328,8 +335,8 @@ const TemplateForm = React.forwardRef(({ defaultData }, ref) => {
             </NCFormItem>
             <NCFormItem
                 label="模板css"
+                labelSpan={5}
                 field="css"
-                rules={[{ required: true, message: '请输入模板样式!' }]}
             >
 
                 <Input.TextArea
@@ -339,8 +346,8 @@ const TemplateForm = React.forwardRef(({ defaultData }, ref) => {
             </NCFormItem>
             <NCFormItem
                 label="模板内容"
+                labelSpan={5}
                 field='html'
-                rules={[{ required: true, message: '请输入模板内容!' }]}
             >
                 <Input.TextArea
                     autosize={{ minRows: 5, maxRows: 100 }}
@@ -349,6 +356,7 @@ const TemplateForm = React.forwardRef(({ defaultData }, ref) => {
             </NCFormItem>
             <NCFormItem
                 label="其他属性"
+                labelSpan={5}
                 field='props'
             >
                 <Input.TextArea
