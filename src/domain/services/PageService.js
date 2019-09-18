@@ -15,32 +15,32 @@ class PageService extends Service {
                 params.name = keywords;
             }
         }
-        return this.ctx.marketServer.post('/page/list', params);
+        return this.ctx.server.market.post('/page/list', params);
     }
 
     addPage(page) {
-        return this.ctx.marketServer.post('/page/add', page);
+        return this.ctx.server.market.post('/page/add', page);
     }
 
     editPage(pageId) {
-        return this.ctx.marketServer.post('/page/edit', {
+        return this.ctx.server.market.post('/page/edit', {
             pageId
         });
     }
 
     editHome() {
-        return this.ctx.marketServer.post('/page/editHome');
+        return this.ctx.server.market.post('/page/editHome');
     }
 
     editBricks(pageId, historyId) {
-        return this.ctx.marketServer.post('/page/editBricks', {
+        return this.ctx.server.market.post('/page/editBricks', {
             pageId,
             historyId
         });
     }
 
     addBrick(pageId, brick, historyId) {
-        return this.ctx.marketServer.post('/page/addBrick', {
+        return this.ctx.server.market.post('/page/addBrick', {
             pageId,
             historyId,
             brick
@@ -48,14 +48,14 @@ class PageService extends Service {
     }
 
     updateBrick(pageId, brick) {
-        return this.ctx.marketServer.post('/page/updateBrick', {
+        return this.ctx.server.market.post('/page/updateBrick', {
             pageId,
             brick
         });
     }
 
     deleteBrick(pageId, brick) {
-        return this.ctx.marketServer.post('/page/deleteBrick', {
+        return this.ctx.server.market.post('/page/deleteBrick', {
             pageId,
             brickId: brick.id,
             brickType: brick.type,
@@ -63,7 +63,7 @@ class PageService extends Service {
     }
 
     savePage(pageId, historyId, name, sortings) {
-        return this.ctx.marketServer.post('/page/savePage', {
+        return this.ctx.server.market.post('/page/savePage', {
             pageId,
             pageName: name,
             historyId,
@@ -72,7 +72,7 @@ class PageService extends Service {
     }
 
     publishPage(pageId, historyId) {
-        return this.ctx.marketServer.post('/page/publishPage', {
+        return this.ctx.server.market.post('/page/publishPage', {
             pageId,
             historyId
         });

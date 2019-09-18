@@ -1,6 +1,8 @@
 .app-slider { width: 375px; }
+.app_def_mb { margin-bottom: 8px; }
 
-.py_pagecenter_window { width: 100vw; height: 100vh; background: #fff; }
+.py_pagecenter_window { width: 100vw; height: 100vh; background: #fff; -webkit-user-select: none; -webkit-touch-callout: none; user-select: none; }
+.py_pagecenter_window * { -webkit-user-select: none; -webkit-touch-callout: none; user-select: none; }
 .py_pagecenter_main { position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
 
 .py_pagecenter_sidebar { width: 50px; padding: 0 10px; border-right: 1px solid #ddd; }

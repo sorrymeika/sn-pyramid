@@ -18,6 +18,9 @@ const templateTypes = [{
 }, {
     type: TEMPLATE_TYPES.IMAGE_CARD,
     name: '图文卡片'
+}, {
+    type: TEMPLATE_TYPES.PRODUCTS,
+    name: '商品列表'
 }];
 
 const pageTypes = [{

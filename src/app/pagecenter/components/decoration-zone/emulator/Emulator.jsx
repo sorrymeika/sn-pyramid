@@ -12,7 +12,7 @@ class Emulator extends Component {
 
         bricks.forEach((item, i) => {
             const template = templates.find((tpl) => tpl.id == item.templateId);
-            if (!template.html) {
+            if (!template) {
                 return;
             }
             const component = (

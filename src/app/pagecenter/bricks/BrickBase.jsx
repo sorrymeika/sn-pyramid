@@ -88,7 +88,7 @@ export class BrickBase extends Component {
         }
 
 
-        this.brickData = JSON.parse(JSON.stringify(brick.data));
+        this.brickData = JSON.parse(JSON.stringify(brick.data || {}));
         this.brickProps = brick.props;
 
         this.processData && this.model.set(this.processData(this.brickData));
@@ -111,6 +111,6 @@ export class BrickBase extends Component {
     }
 
     render() {
-        return <div ref={this.setRef} style={{ minHeight: 50 }}/>;
+        return <div ref={this.setRef} style={{ minHeight: 50 }} />;
     }
 }
