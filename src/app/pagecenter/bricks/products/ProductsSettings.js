@@ -5,13 +5,11 @@ export class ProductsSettings extends SettingsBase {
         products: [],
         type: 1,
         cols: 2,
+        maxNum: 30,
         bottomMargin: true
     };
 
     cols = [{
-        text: '1列',
-        value: 1
-    }, {
         text: '2列',
         value: 2
     }, {
@@ -58,11 +56,21 @@ export class ProductsSettings extends SettingsBase {
         },
         type == 1
             ? {
-                type: 'formula',
-                props: {
-                    label: '选品规则ID',
-                    field: 'data.formulaId',
-                }
+                type: 'div',
+                children: [{
+                    type: 'formula',
+                    props: {
+                        label: '选品规则ID',
+                        field: 'data.formulaId',
+                    }
+                }, {
+                    type: 'number',
+                    props: {
+                        label: '展示数量',
+                        field: 'data.maxNum',
+                        rules: [{ reqired: true, type: 'number', max: 50, min: 1, message: '商品数量区间为1~50' }]
+                    }
+                }]
             }
             : {
                 type: 'div',

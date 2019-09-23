@@ -10,10 +10,14 @@ import SpuTypeService from "../../../domain/services/SpuTypeService";
 import SpuTypeSelectService from "../../product/services/SpuTypeSelectService";
 
 import ProductService from "../../../domain/services/ProductService";
+import FormulaService from "../../../domain/services/FormulaService";
+import FormulaSelectService from "../../product/services/FormulaSelectService";
+import SearchService from "../../../domain/services/SearchService";
 
 export class DecorationBase {
     @injectable decorationService: DecorationService;
     @injectable productService: ProductService;
+    @injectable searchService: SearchService;
 
     @injectable cateSelectServiceFactory() {
         if (!this.cateSelectService) {
@@ -31,6 +35,15 @@ export class DecorationBase {
             });
         }
         return this.spuTypeSelectService;
+    }
+
+    @injectable formulaSelectServiceFactory() {
+        if (!this.formulaSelectService) {
+            this.formulaSelectService = new FormulaSelectService({
+                formulaService: new FormulaService()
+            });
+        }
+        return this.formulaSelectService;
     }
 
     @injectable get title() {
@@ -65,5 +78,7 @@ export class DecorationBase {
         });
 
         this.productService = new ProductService();
+
+        this.searchService = new SearchService();
     }
 }

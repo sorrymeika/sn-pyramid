@@ -2,6 +2,7 @@ import { JsonComponent, Atom } from "nuclear";
 import { observable } from "snowball";
 import { Icon, Modal } from "antd";
 import React from "react";
+import { FormulaSelect } from "../app/product/components/FormulaSelect";
 
 class Formula extends JsonComponent {
     static defaultProps = {
@@ -45,12 +46,24 @@ class Formula extends JsonComponent {
                             onClick={this.handleClick}
                         />,
                         <Modal
+                            title="选品规则选择"
                             key="modal"
                             visible={this.modalVisible}
+                            cancelText="取消"
                             onCancel={() => {
                                 this.modalVisible = false;
                             }}
+                            style={{ top: 0 }}
+                            width={800}
+                            okText="确定"
+                            onOk={() => {
+                                this.modalVisible = false;
+                            }}
                         >
+                            <FormulaSelect onSelect={(item) => {
+                                this.value = item.id;
+                                this.modalVisible = false;
+                            }}></FormulaSelect>
                         </Modal>
                     ]
                 ),

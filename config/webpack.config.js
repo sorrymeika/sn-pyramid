@@ -145,12 +145,13 @@ module.exports = function (webpackEnv) {
         // require.resolve('webpack/hot/dev-server'),
         isEnvDevelopment &&
         require.resolve('react-dev-utils/webpackHotDevClient'),
+        // require.resolve('./polyfills'),
         // Finally, this is your app's code:
         paths.appIndexJs,
         // We include the app code last so that if there is a runtime error during
         // initialization, it doesn't blow up the WebpackDevServer client, and
         // changing JS code would still trigger a refresh.
-      ].filter(Boolean),
+      ].filter(Boolean)
     },
     output: {
       jsonpFunction: 'wpJsonp' + process.env.REACT_APP_PROJECT_NAME,
@@ -321,19 +322,6 @@ module.exports = function (webpackEnv) {
             },
           ],
           include: paths.appSrc,
-        },
-        {
-          test: /\.(js|mjs|jsx|ts|tsx)$/,
-          include: paths.appSrc,
-          loader: require.resolve('snowball/webpack-extentions/snowball-loader'),
-          options: {
-            modules: {
-              nuclear: 'window.Nuclear',
-              antd: 'window.Nuclear.antd',
-              'sn-cornerstone': 'window.Cornerstone',
-            },
-            excludes: ['src/index.dev.js']
-          },
         },
         {
           // "oneOf" will traverse all following loaders until one will
@@ -521,6 +509,19 @@ module.exports = function (webpackEnv) {
             // ** STOP ** Are you adding a new loader?
             // Make sure to add the new loader(s) before the "file" loader.
           ],
+        },
+        {
+          test: /\.(js|mjs|jsx|ts|tsx)$/,
+          include: paths.appSrc,
+          exclude: [path.resolve(paths.appSrc, 'index.dev.js')],
+          loader: require.resolve('snowball/webpack-extentions/snowball-loader'),
+          options: {
+            modules: {
+              nuclear: 'window.Nuclear',
+              antd: 'window.Nuclear.antd',
+              'sn-cornerstone': 'window.Cornerstone',
+            }
+          },
         },
       ],
     },

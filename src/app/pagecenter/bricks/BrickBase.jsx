@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import { util, ViewModel } from 'snowball';
+import { PageContext } from 'snowball/app';
 
 export class BrickBase extends Component {
+    static contextType = PageContext;
+
     model;
     node;
     brickData;
     brickProps;
 
-    constructor(props) {
-        super(props);
+    constructor(props, context) {
+        super(props, context);
 
         const {
             template,
@@ -65,7 +68,7 @@ export class BrickBase extends Component {
             brick
         } = nextProps;
 
-        if (this.brickData != brick.data || this.brickProps != brick.props) {
+        if (JSON.stringify(this.brickData) != JSON.stringify(brick.data) || JSON.stringify(this.brickProps) != JSON.stringify(brick.props)) {
             this._processData(brick);
         }
         return false;
@@ -86,7 +89,6 @@ export class BrickBase extends Component {
             this.rectChange();
             return;
         }
-
 
         this.brickData = JSON.parse(JSON.stringify(brick.data || {}));
         this.brickProps = brick.props;
