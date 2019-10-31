@@ -512,13 +512,16 @@ module.exports = function (webpackEnv) {
         },
         {
           test: /\.(js|mjs|jsx|ts|tsx)$/,
-          include: paths.appSrc,
+          include: [
+            paths.appSrc
+          ],
           exclude: [path.resolve(paths.appSrc, 'index.dev.js')],
           loader: require.resolve('snowball/webpack-extentions/snowball-loader'),
           options: {
             modules: {
               nuclear: 'window.Nuclear',
               antd: 'window.Nuclear.antd',
+              moment: 'window.Nuclear.moment',
               'sn-cornerstone': 'window.Cornerstone',
             }
           },
