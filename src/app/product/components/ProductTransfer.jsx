@@ -103,7 +103,7 @@ class ProductTransfer extends Component {
         this.loadData();
 
         const { products, productService } = this.props;
-        if (products && products.length) {
+        if (products && products.length && products.every(item => item.id)) {
             const res = await productService.getSpusByIds(products.map((item) => item.id));
             this.setState({
                 results: res.data

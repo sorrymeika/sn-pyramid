@@ -11,7 +11,7 @@ class FormulaService extends Service {
             name = keywords;
         }
 
-        return this.ctx.server.trade.post('/formula/list', {
+        return this.app.server.trade.post('/formula/list', {
             id,
             sellerId,
             name,
@@ -21,7 +21,7 @@ class FormulaService extends Service {
     }
 
     getFormulaById(formulaId) {
-        return this.ctx.server.trade.post('/formula/getById', {
+        return this.app.server.trade.post('/formula/getById', {
             id: formulaId
         });
     }

@@ -16,7 +16,7 @@ function SaveButton({ disabled, onClick }) {
 const SaveButtonInjc = inject(({ decorationService }) => {
     return decorationService
         ? {
-            onClick: decorationService.onSaveButtonClick.emit,
+            onClick: decorationService.onSavePage.emit,
             disabled: decorationService.isSaveButtonDisabled
         }
         : {};

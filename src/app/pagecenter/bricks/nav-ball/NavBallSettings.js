@@ -41,7 +41,7 @@ export class NavBallSettings extends SettingsBase {
             props: {
                 title: '图片',
                 field: 'data.images',
-                minNum: 4,
+                minNum: 5,
                 maxNum: 16,
                 items: [{
                     type: 'image',
@@ -55,6 +55,13 @@ export class NavBallSettings extends SettingsBase {
                         maxSize: 20,
                         help: '上传格式为png、jpg、gif，96x96，大小20kb以下的图片',
                         rules: [{ required: true, message: '必须上传图片' }]
+                    }
+                }, {
+                    type: 'input',
+                    props: {
+                        placeholder: '请输入导航名',
+                        field: 'text',
+                        rules: [{ required: true, message: '请输入导航名' }]
                     }
                 }, {
                     type: 'link',

@@ -9,7 +9,7 @@ class Slider extends BrickBase {
         return {
             images: data.images && data.images.map((img) => ({
                 ...img,
-                src: this.props.ctx.sfs.completeUrl(img.src)
+                src: this.props.ctx.app.sfs.completeUrl(img.src)
             }))
         };
     }

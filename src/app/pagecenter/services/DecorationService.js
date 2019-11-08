@@ -23,7 +23,7 @@ export class DecorationService extends Service {
     onSettingOk = this.ctx.createEvent();
 
     @observable isSaveButtonDisabled = true;
-    onSaveButtonClick = this.ctx.createEvent();
+    onSavePage = this.ctx.createEvent();
 
     @observable isPublishButtonDisabled = false;
     onPublishButtonClick = this.ctx.createEvent();
@@ -41,7 +41,7 @@ export class DecorationService extends Service {
         this.onSettingCancel(() => this.cancelSetting());
         this.onSettingOk((data) => this.submitSetting(data));
 
-        this.onSaveButtonClick(() => this.savePage());
+        this.onSavePage(() => this.savePage());
         this.onPublishButtonClick(() => this.publishPage());
     }
 
@@ -52,13 +52,15 @@ export class DecorationService extends Service {
             this.warning = bricksRes.message;
             return;
         }
-        this.bricks = bricksRes.data.map((brick) => {
-            return {
-                ...brick,
-                data: JSON.parse(brick.data),
-                props: JSON.parse(brick.props),
-            };
-        });
+        this.bricks = bricksRes.data
+            .sort((a, b) => a.sort - b.sort)
+            .map((brick) => {
+                return {
+                    ...brick,
+                    data: JSON.parse(brick.data),
+                    props: JSON.parse(brick.props),
+                };
+            });
     }
 
     async handleDrop(e) {
@@ -144,7 +146,16 @@ export class DecorationService extends Service {
                     });
                 });
             }
+            this.rearrange();
         }
+    }
+
+    rearrange() {
+        this.bricks.withMutations((bricks) => {
+            bricks.sort((a, b) => {
+                return a.sort - b.sort;
+            });
+        });
     }
 
     selectBrick({ brick, template }) {
@@ -214,14 +225,18 @@ export class DecorationService extends Service {
     async savePage() {
         const { id, historyId, name } = this.pageState;
         const sortings = [];
+
         this.bricks.withMutations((bricks) => {
-            bricks.each((brick, i) => {
-                brick.set({
-                    sort: (i + 1) * 2048
+            bricks
+                .sort((a, b) => a.sort - b.sort)
+                .each((brick, i) => {
+                    brick.set({
+                        sort: (i + 1) * 2048
+                    });
+                    sortings.push(brick.pick(['id', 'sort']));
                 });
-                sortings.push(brick.pick(['id', 'sort']));
-            });
         });
+
         const res = await this.pageService.savePage(id, historyId, name, sortings);
         if (res.success) {
             message.success('保存成功！');

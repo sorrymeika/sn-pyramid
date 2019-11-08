@@ -2,13 +2,13 @@ import { Service } from 'snowball/app';
 
 class TemplateService extends Service {
     getTemplates(params) {
-        return this.ctx.server.market.post('/template/query', params);
+        return this.app.server.market.post('/template/query', params);
     }
 
     addTemplate(data) {
         const { supportPageTypes } = data;
 
-        return this.ctx.server.market.post('/template/add', {
+        return this.app.server.market.post('/template/add', {
             ...data,
             supportPageTypes: supportPageTypes ? supportPageTypes.join(',') : undefined
         });
@@ -19,7 +19,7 @@ class TemplateService extends Service {
 
         const { supportPageTypes } = data;
 
-        return this.ctx.server.market.post('/template/update', {
+        return this.app.server.market.post('/template/update', {
             ...data,
             supportPageTypes: supportPageTypes ? supportPageTypes.join(',') : undefined
         });

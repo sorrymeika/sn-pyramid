@@ -556,6 +556,7 @@ module.exports = function (webpackEnv) {
         )
       ),
       new HtmlPreRenderWebpackPlugin({
+        mobile: false,
         appSrc: paths.appSrc,
         skeleton: {},
         preloader: require.resolve('snowball/preloader/preloader.tpl.js')
