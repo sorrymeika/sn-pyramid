@@ -1,0 +1,11 @@
+{
+    "buildCommands": [
+        "npm install"
+    ],
+    "autoConfig": [
+        {
+            "template": ".env.vm",
+            "destFile": "./.env"
+        }
+    ]
+}
