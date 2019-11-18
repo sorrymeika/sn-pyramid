@@ -77,13 +77,13 @@ function CateSelect(props) {
 
 const ServiceWrapper = ({ cateSelectService, value, onChange, ...props }) => {
     useEffect(() => {
-        return cateSelectService.onChange((vals) => {
+        cateSelectService.onChange((vals) => {
             onChange && onChange(vals);
         });
     }, [cateSelectService, onChange]);
 
     useEffect(() => {
-        return cateSelectService.onInit.emit();
+        cateSelectService.onInit.emit();
     }, [cateSelectService.onInit]);
 
     const vals = value || [0, 0, 0];

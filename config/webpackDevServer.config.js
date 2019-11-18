@@ -83,22 +83,15 @@ module.exports = function (proxy, allowedHost) {
     },
     public: allowedHost,
     proxy,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Cache-Control'
+    },
     before(app, server) {
       if (fs.existsSync(paths.proxySetup)) {
         // This registers user provided middleware for proxy reasons
         require(paths.proxySetup)(app);
       }
-
-      app.use("*", function (req, res, next) {
-        res.header('Access-Control-Allow-Origin', '*');
-        res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
-        res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
-        if (req.method === 'OPTIONS') {
-          res.send(200);
-        } else {
-          next();
-        }
-      });
 
       app.use("/market_server", httpProxy("localhost", 7002, (url) => url));
       app.use("/trade_server", httpProxy("localhost", 7003, (url) => url));

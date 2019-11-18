@@ -52,7 +52,7 @@ export default inject('spuTypeSelectService')(({ spuTypeSelectService, value, on
     }, [spuTypeSelectService, spuTypeSelectService.onInit, value]);
 
     useEffect(() => {
-        return spuTypeSelectService.onChange((vals) => {
+        spuTypeSelectService.onChange((vals) => {
             onChange && onChange(vals);
         });
     }, [spuTypeSelectService, onChange]);
