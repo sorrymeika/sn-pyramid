@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { inject } from 'snowball/app';
-import { createSettings } from '../../bricks';
 import { message } from 'antd';
+import PageSettingService from '../../services/PageSettingService';
 
-class Settings extends Component {
+class PageSetting extends Component {
     constructor(props) {
         super(props);
         this.formRef = React.createRef();
@@ -13,8 +13,8 @@ class Settings extends Component {
         this.formRef.current.validateFields((err, data) => {
             if (!err) {
                 this.props.onOk({
-                    ...this.props.currentBrick,
-                    data
+                    ...this.props.data,
+                    ...data
                 });
             } else {
                 message.error('请完整填写表单!');
@@ -23,27 +23,28 @@ class Settings extends Component {
     }
 
     render() {
+        if (!this.props.visible) {
+            return null;
+        }
+
         const {
-            currentBrick,
-            currentTemplate,
+            data,
             children,
+            formFactory
         } = this.props;
 
         return (
             <div className="h_1x py_pagecenter_settings">
                 <div className="py_pagecenter_settings_con">
+                    <div className="pd_l pb_s">
+                        <h1 className="fs_xl mb_l">页面设置</h1>
+                    </div>
                     {children}
                     <div className="pl_l pr_l">
-                        {
-                            currentBrick && currentBrick.id
-                                ? createSettings(currentTemplate.type, {
-                                    ref: this.formRef,
-                                    brick: currentBrick,
-                                    template: currentTemplate,
-                                    data: currentBrick.data
-                                })
-                                : null
-                        }
+                        {formFactory && formFactory({
+                            ref: this.formRef,
+                            data
+                        })}
                     </div>
                 </div>
                 <div className="py_pagecenter_settings_ft flex">
@@ -61,9 +62,10 @@ class Settings extends Component {
     }
 }
 
-export default inject(({ decorationService }) => ({
-    currentBrick: decorationService.currentBrick,
-    currentTemplate: decorationService.currentTemplate,
-    onCancel: decorationService.onSettingCancel.emit,
-    onOk: decorationService.onSettingOk.emit
-}))(Settings);
+export default inject(({ pageSettingService }: { pageSettingService: PageSettingService }) => ({
+    visible: pageSettingService.isPanelVisible,
+    formFactory: pageSettingService.formFactory,
+    data: pageSettingService.data,
+    onCancel: pageSettingService.onSettingCancel.emit,
+    onOk: pageSettingService.onSettingOk.emit
+}))(PageSetting);

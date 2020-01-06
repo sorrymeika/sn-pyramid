@@ -1,14 +1,17 @@
-import { Service } from 'snowball/app';
+import { Service, autowired } from 'snowball/app';
 
 class TemplateService extends Service {
-    getTemplates(params) {
-        return this.app.server.market.post('/template/query', params);
+    @autowired
+    _marketServer;
+
+    getTemplates(params: { pageType?: number }) {
+        return this._marketServer.post('/template/query', params);
     }
 
     addTemplate(data) {
         const { supportPageTypes } = data;
 
-        return this.app.server.market.post('/template/add', {
+        return this._marketServer.post('/template/add', {
             ...data,
             supportPageTypes: supportPageTypes ? supportPageTypes.join(',') : undefined
         });
@@ -19,11 +22,11 @@ class TemplateService extends Service {
 
         const { supportPageTypes } = data;
 
-        return this.app.server.market.post('/template/update', {
+        return this._marketServer.post('/template/update', {
             ...data,
             supportPageTypes: supportPageTypes ? supportPageTypes.join(',') : undefined
         });
     }
 }
 
-export { TemplateService };
+export default TemplateService;

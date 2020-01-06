@@ -371,4 +371,4 @@ const TemplateForm = React.forwardRef(({ defaultData }, ref) => {
     );
 });
 
-export { Templates };
+export default Templates;

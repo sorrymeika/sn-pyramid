@@ -11,9 +11,9 @@ export default class FormulaSelectService extends Service {
 
     searchParams = {};
 
-    onInit = this.ctx.createEvent();
-    onSearch = this.ctx.createEvent();
-    onPageChange = this.ctx.createEvent();
+    onInit = this.ctx.createEmitter();
+    onSearch = this.ctx.createEmitter();
+    onPageChange = this.ctx.createEmitter();
 
     constructor({
         formulaService,

@@ -1,2 +1,2 @@
-export { Settings } from './Settings';
-export { TemplateInfo } from './TemplateInfo';
+export { default as Settings } from './Settings';
+export { default as TemplateInfo } from './TemplateInfo';

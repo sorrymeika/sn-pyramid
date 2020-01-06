@@ -4,7 +4,7 @@ import { Table, Button, Input } from 'antd';
 import { NCToolbar, NCForm, NCFormItem } from 'nuclear';
 import { inject } from 'snowball/app';
 
-function FormulaSelect({
+function _FormulaSelect({
     dataSource,
     pageIndex,
     pageSize,
@@ -104,18 +104,16 @@ function FormulaSelect({
     );
 }
 
-const FormulaSelectInjc = inject(['formulaSelectService'], ({ formulaSelectService }) => (
-    formulaSelectService
-        ? {
-            total: formulaSelectService.total,
-            pageIndex: formulaSelectService.pageIndex,
-            pageSize: formulaSelectService.pageSize,
-            dataSource: formulaSelectService.formulas,
-            onInit: formulaSelectService.onInit.emit,
-            onSearch: formulaSelectService.onSearch.emit,
-            onPageChange: formulaSelectService.onPageChange.emit,
-        }
-        : {}
-))(FormulaSelect);
+const FormulaSelect = inject(['formulaSelectService'], ([formulaSelectService]) => {
+    return {
+        total: formulaSelectService.total,
+        pageIndex: formulaSelectService.pageIndex,
+        pageSize: formulaSelectService.pageSize,
+        dataSource: formulaSelectService.formulas,
+        onInit: formulaSelectService.onInit.emit,
+        onSearch: formulaSelectService.onSearch.emit,
+        onPageChange: formulaSelectService.onPageChange.emit,
+    };
+})(_FormulaSelect);
 
-export { FormulaSelectInjc as FormulaSelect };
+export { FormulaSelect };

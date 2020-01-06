@@ -57,7 +57,7 @@ class TemplateInfo extends Component {
     }
 }
 
-const TemplateInfoInjc = inject(({ decorationService }) => (
+export default inject(({ decorationService }) => (
     decorationService
         ? {
             currentTemplate: decorationService.currentTemplate,
@@ -65,5 +65,3 @@ const TemplateInfoInjc = inject(({ decorationService }) => (
         }
         : {}
 ))(TemplateInfo);
-
-export { TemplateInfoInjc as TemplateInfo };

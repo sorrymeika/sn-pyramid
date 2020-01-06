@@ -1,3 +1,3 @@
 export { DecorationZone } from './DecorationZone';
 export { Emulator } from './emulator/Emulator';
-export { PhoneHead } from './emulator/PhoneHead';
+export { default as PhoneHead } from './emulator/PhoneHead';

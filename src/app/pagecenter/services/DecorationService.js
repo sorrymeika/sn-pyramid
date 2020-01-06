@@ -1,8 +1,11 @@
-import { observable } from "snowball";
-import { Service } from "snowball/app";
 import { message } from "antd";
+import { observable } from "snowball";
+import { Service, autowired } from "snowball/app";
 
-export class DecorationService extends Service {
+import PageService from "../../../shared/services/PageService";
+import PageSettingService from "./PageSettingService";
+
+export default class DecorationService extends Service {
     @observable pageState = {};
     @observable bricks = [];
     @observable templates = [];
@@ -12,25 +15,32 @@ export class DecorationService extends Service {
     @observable warning;
     @observable title;
 
-    onDrop = this.ctx.createEvent();
+    onDrop = this.ctx.createEmitter();
 
-    onSelectBrick = this.ctx.createEvent();
-    onSwapBrick = this.ctx.createEvent();
-    onDeleteBrick = this.ctx.createEvent();
+    onSelectBrick = this.ctx.createEmitter();
+    onSwapBrick = this.ctx.createEmitter();
+    onDeleteBrick = this.ctx.createEmitter();
 
     @observable isSettingVisible = false;
-    onSettingCancel = this.ctx.createEvent();
-    onSettingOk = this.ctx.createEvent();
+    onSettingCancel = this.ctx.createEmitter();
+    onSettingOk = this.ctx.createEmitter();
 
     @observable isSaveButtonDisabled = true;
-    onSavePage = this.ctx.createEvent();
+    onSavePage = this.ctx.createEmitter();
 
     @observable isPublishButtonDisabled = false;
-    onPublishButtonClick = this.ctx.createEvent();
+    onPublishButtonClick = this.ctx.createEmitter();
 
-    constructor({ pageService }) {
+    onClickPageSetting = this.ctx.createEmitter();
+
+    @autowired
+    pageService: PageService;
+
+    @autowired
+    pageSettingService: PageSettingService;
+
+    constructor() {
         super();
-        this.pageService = pageService;
 
         this.onDrop((e) => this.handleDrop(e));
 
@@ -43,6 +53,12 @@ export class DecorationService extends Service {
 
         this.onSavePage(() => this.savePage());
         this.onPublishButtonClick(() => this.publishPage());
+
+        this.onClickPageSetting(() => this.showPageSetting());
+
+        this.ctx.autorun(() => {
+            this.pageSettingService.pageState = this.pageState;
+        });
     }
 
     async loadBricks(pageId, historyId) {
@@ -163,6 +179,7 @@ export class DecorationService extends Service {
         this.currentTemplate = template;
         this.selectedBrickId = brick.id;
         this.isSettingVisible = true;
+        this.pageSettingService.hidePanel();
     }
 
     swapBrick(fromIndex, toIndex) {
@@ -195,8 +212,6 @@ export class DecorationService extends Service {
     }
 
     async submitSetting(data) {
-        console.log(data);
-
         const res = await this.pageService.updateBrick(this.pageState.id, {
             ...data,
             data: JSON.stringify(data.data || {}),
@@ -219,6 +234,11 @@ export class DecorationService extends Service {
     }
 
     cancelSetting() {
+        this.isSettingVisible = false;
+    }
+
+    showPageSetting() {
+        this.pageSettingService.showPanel();
         this.isSettingVisible = false;
     }
 

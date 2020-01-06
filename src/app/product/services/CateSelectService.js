@@ -11,11 +11,11 @@ export default class CateSelectService extends Service {
     @observable subCateId = 0;
     @observable subSubCateId = 0;
 
-    onInit = this.ctx.createEvent();
-    onChange = this.ctx.createEvent();
-    onCateChange = this.ctx.createEvent();
-    onSubCateChange = this.ctx.createEvent();
-    onSubSubCateChange = this.ctx.createEvent();
+    onInit = this.ctx.createEmitter();
+    onChange = this.ctx.createEmitter();
+    onCateChange = this.ctx.createEmitter();
+    onSubCateChange = this.ctx.createEmitter();
+    onSubSubCateChange = this.ctx.createEmitter();
 
     constructor({ categoryService }) {
         super();

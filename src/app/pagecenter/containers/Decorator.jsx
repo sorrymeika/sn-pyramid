@@ -7,14 +7,15 @@ import { SaveButton } from '../components/topbar/SaveButton';
 import { PublishButton } from '../components/topbar/PublishButton';
 import { DecorationZone, Emulator, PhoneHead } from '../components/decoration-zone';
 import { Settings, TemplateInfo } from '../components/settings';
+import PageSetting from '../components/settings/PageSetting';
 
-function Decorator({ isSettingVisible }) {
+function Decorator({ title, isSettingVisible }) {
     return (
         <div className="py_pagecenter_window">
             <Sidebar></Sidebar>
             <Topbar>
                 <Left>
-                    <div className="ml_m cl_000">页面装修</div>
+                    <div className="ml_m cl_000">{title}装修</div>
                 </Left>
                 <Right>
                     <SaveButton></SaveButton>
@@ -22,12 +23,14 @@ function Decorator({ isSettingVisible }) {
                 </Right>
             </Topbar>
             <Main>
-                <Templates groups={[]}></Templates>
+                <Templates></Templates>
                 <DecorationZone>
                     <Emulator
-                        head={<PhoneHead></PhoneHead>}
-                    >
-                    </Emulator>
+                        head={
+                            <PhoneHead>
+                            </PhoneHead>
+                        }
+                    />
                 </DecorationZone>
                 {
                     isSettingVisible
@@ -38,9 +41,10 @@ function Decorator({ isSettingVisible }) {
                         )
                         : null
                 }
+                <PageSetting />
             </Main>
         </div>
     );
 }
 
-export { Decorator };
+export default Decorator;

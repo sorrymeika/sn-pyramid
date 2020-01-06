@@ -1,26 +1,24 @@
-require('./sass/style.dev.scss');
-require('nuclear');
+import './sass/style.dev.scss';
+import 'nuclear';
 
-const { Server, Sfs } = require('sn-cornerstone');
-const { env } = require("snowball");
-const { createApplication } = require("snowball/app");
-const router = require("./app/router");
+import { Sfs, AppConfiguration } from 'sn-cornerstone';
+import { env } from "snowball";
+import { createApplication } from "snowball/app";
+import router from "./app/router";
 
 createApplication({
-    routes: router.default,
+    routes: router,
     autoStart: true,
+    configuration: AppConfiguration,
     extend() {
         return {
             env: {
                 ...env,
                 IMAGE_UPLOAD_URL: process.env.REACT_APP_IMAGE_UPLOAD_URL,
-                SFS_URL: process.env.REACT_APP_SFS_URL
+                SFS_URL: process.env.REACT_APP_SFS_URL,
+                API_URL: ''
             },
-            sfs: new Sfs(process.env.REACT_APP_SFS_URL),
-            server: {
-                market: new Server({ baseUrl: '/market_server' }),
-                trade: new Server({ baseUrl: '/trade_server' })
-            }
+            sfs: new Sfs(process.env.REACT_APP_SFS_URL)
         };
     },
     options: {

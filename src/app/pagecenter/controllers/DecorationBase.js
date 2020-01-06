@@ -1,84 +1,50 @@
-import { injectable } from "snowball/app";
-import { PageService } from "../../../domain/services/PageService";
-import { TemplateService } from "../../../domain/services/TemplateService";
-import { DecorationService } from "../services/DecorationService";
+import PageService from "../../../shared/services/PageService";
+import TemplateService from "../../../shared/services/TemplateService";
+import DecorationService from "../services/DecorationService";
 
-import CategoryService from "../../../domain/services/CategoryService";
-import CateSelectService from "../../product/services/CateSelectService";
+import PageSettingService from "../services/PageSettingService";
+import { autowired } from "snowball/app";
 
-import SpuTypeService from "../../../domain/services/SpuTypeService";
-import SpuTypeSelectService from "../../product/services/SpuTypeSelectService";
+export default class DecorationBase {
+    @autowired
+    decorationService: DecorationService;
 
-import ProductService from "../../../domain/services/ProductService";
-import FormulaService from "../../../domain/services/FormulaService";
-import FormulaSelectService from "../../product/services/FormulaSelectService";
-import SearchService from "../../../domain/services/SearchService";
+    @autowired
+    templateService: TemplateService;
 
-export class DecorationBase {
-    @injectable decorationService: DecorationService;
-    @injectable productService: ProductService;
-    @injectable searchService: SearchService;
+    @autowired
+    pageService: PageService;
 
-    @injectable cateSelectServiceFactory() {
-        if (!this.cateSelectService) {
-            this.cateSelectService = new CateSelectService({
-                categoryService: new CategoryService()
-            });
-        }
-        return this.cateSelectService;
-    }
+    @autowired
+    pageSettingService: PageSettingService;
 
-    @injectable spuTypeSelectServiceFactory() {
-        if (!this.spuTypeSelectService) {
-            this.spuTypeSelectService = new SpuTypeSelectService({
-                spuTypeService: new SpuTypeService()
-            });
-        }
-        return this.spuTypeSelectService;
-    }
+    @autowired
+    searchService: SearchService;
 
-    @injectable formulaSelectServiceFactory() {
-        if (!this.formulaSelectService) {
-            this.formulaSelectService = new FormulaSelectService({
-                formulaService: new FormulaService()
-            });
-        }
-        return this.formulaSelectService;
-    }
+    @autowired
+    productService;
 
-    @injectable get title() {
+    get title() {
         return this.decorationService.title;
     }
 
-    @injectable get templates() {
+    get templates() {
         return this.decorationService.templates;
     }
 
-    @injectable get pageState() {
+    get pageState() {
         return this.decorationService.pageState;
     }
 
-    @injectable get bricks() {
+    get bricks() {
         return this.decorationService.bricks;
     }
 
-    @injectable get warning() {
+    get warning() {
         return this.decorationService.warning;
     }
 
-    @injectable get isSettingVisible() {
+    get isSettingVisible() {
         return this.decorationService.isSettingVisible;
-    }
-
-    constructor() {
-        this.templateService = new TemplateService();
-        this.pageService = new PageService();
-        this.decorationService = new DecorationService({
-            pageService: this.pageService
-        });
-
-        this.productService = new ProductService();
-
-        this.searchService = new SearchService();
     }
 }

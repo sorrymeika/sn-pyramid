@@ -1,22 +1,26 @@
-import { controller, injectable } from "snowball/app";
+import { controller, autowired } from "snowball/app";
 
-import { TemplateService } from "../../../domain/services/TemplateService";
-import { Templates } from "../containers/Templates";
+import TemplateService from "../../../shared/services/TemplateService";
+import Templates from "../containers/Templates";
+import { observable } from "snowball";
+import { TemplateConfiguration } from "../configuration";
 
-@controller(Templates)
+@controller({
+    component: Templates,
+    configuration: TemplateConfiguration
+})
 class TemplateController {
 
-    @injectable dataSource;
+    @observable
+    dataSource;
 
-    constructor() {
-        this.templateService = new TemplateService();
-    }
+    @autowired
+    templateService: TemplateService;
 
     async onInit() {
         this.search();
     }
 
-    @injectable
     async search(data) {
         const res = await this.templateService.getTemplates(data);
         if (res.success) {
@@ -26,7 +30,6 @@ class TemplateController {
         }
     }
 
-    @injectable
     async addTemplate(data) {
         const res = await this.templateService.addTemplate(data);
         if (res.success) {
@@ -34,7 +37,6 @@ class TemplateController {
         }
     }
 
-    @injectable
     async updateTemplate(data) {
         const res = await this.templateService.updateTemplate(data);
         if (res.success) {

@@ -12,13 +12,13 @@ export class PageListService extends Service {
     pageSize = 20;
     total = 0;
 
-    onSearch = this.ctx.createEvent();
-    onPageChange = this.ctx.createEvent();
+    onSearch = this.ctx.createEmitter();
+    onPageChange = this.ctx.createEmitter();
 
     @observable isModalVisible = false;
-    onClickAddPage = this.ctx.createEvent();
-    onAddPage = this.ctx.createEvent();
-    onCancelAddPage = this.ctx.createEvent();
+    onClickAddPage = this.ctx.createEmitter();
+    onAddPage = this.ctx.createEmitter();
+    onCancelAddPage = this.ctx.createEmitter();
 
     constructor({ pageService }) {
         super();
@@ -56,8 +56,6 @@ export class PageListService extends Service {
             pageIndex: this.pageIndex,
             pageSize: this.pageSize
         });
-
-        console.log(res);
 
         if (res.success) {
             this.pageList = res.data;

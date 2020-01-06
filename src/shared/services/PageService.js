@@ -1,6 +1,9 @@
-import { Service } from "snowball/app";
+import { Service, autowired } from "snowball/app";
 
-class PageService extends Service {
+export default class PageService extends Service {
+    @autowired
+    _marketServer;
+
     getPageList({ type, status, keywords, pageIndex, pageSize }) {
         const params = {
             type,
@@ -15,32 +18,36 @@ class PageService extends Service {
                 params.name = keywords;
             }
         }
-        return this.app.server.market.post('/page/list', params);
+        return this._marketServer.post('/admin/page/list', params);
     }
 
     addPage(page) {
-        return this.app.server.market.post('/page/add', page);
+        return this._marketServer.post('/admin/page/add', page);
     }
 
     editPage(pageId) {
-        return this.app.server.market.post('/page/edit', {
+        return this._marketServer.post('/admin/page/edit', {
             pageId
         });
     }
 
     editHome() {
-        return this.app.server.market.post('/page/editHome');
+        return this._marketServer.post('/admin/page/editHome');
+    }
+
+    editShop(sellerId) {
+        return this._marketServer.post('/admin/page/editShop', { sellerId });
     }
 
     editBricks(pageId, historyId) {
-        return this.app.server.market.post('/page/editBricks', {
+        return this._marketServer.post('/admin/page/editBricks', {
             pageId,
             historyId
         });
     }
 
     addBrick(pageId, brick, historyId) {
-        return this.app.server.market.post('/page/addBrick', {
+        return this._marketServer.post('/admin/page/addBrick', {
             pageId,
             historyId,
             brick
@@ -48,22 +55,30 @@ class PageService extends Service {
     }
 
     updateBrick(pageId, brick) {
-        return this.app.server.market.post('/page/updateBrick', {
+        return this._marketServer.post('/admin/page/updateBrick', {
             pageId,
             brick
         });
     }
 
     deleteBrick(pageId, brick) {
-        return this.app.server.market.post('/page/deleteBrick', {
+        return this._marketServer.post('/admin/page/deleteBrick', {
             pageId,
             brickId: brick.id,
             brickType: brick.type,
         });
     }
 
+    savePageProps(pageId, historyId, props) {
+        return this._marketServer.post('/admin/page/savePageProps', {
+            pageId,
+            historyId,
+            props: !props || typeof props === 'string' ? props : JSON.stringify(props)
+        });
+    }
+
     savePage(pageId, historyId, name, sortings) {
-        return this.app.server.market.post('/page/savePage', {
+        return this._marketServer.post('/admin/page/savePage', {
             pageId,
             pageName: name,
             historyId,
@@ -72,11 +87,9 @@ class PageService extends Service {
     }
 
     publishPage(pageId, historyId) {
-        return this.app.server.market.post('/page/publishPage', {
+        return this._marketServer.post('/admin/page/publishPage', {
             pageId,
             historyId
         });
     }
 }
-
-export { PageService };

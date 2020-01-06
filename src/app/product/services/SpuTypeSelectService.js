@@ -10,10 +10,10 @@ export default class SpuTypeSelectService extends Service {
     @observable typeId = 0;
     @observable subTypeId = 0;
 
-    onInit = this.ctx.createEvent();
-    onChange = this.ctx.createEvent();
-    onTypeChange = this.ctx.createEvent();
-    onSubTypeChange = this.ctx.createEvent();
+    onInit = this.ctx.createEmitter();
+    onChange = this.ctx.createEmitter();
+    onTypeChange = this.ctx.createEmitter();
+    onSubTypeChange = this.ctx.createEmitter();
 
     constructor({ spuTypeService }) {
         super();

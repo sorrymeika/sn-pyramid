@@ -1,8 +1,8 @@
 import { message } from "antd";
 import { controller } from "snowball/app";
 
-import { Decorator } from "../containers/Decorator";
-import { DecorationBase } from "./DecorationBase";
+import Decorator from "../containers/Decorator";
+import DecorationBase from "./DecorationBase";
 
 @controller(Decorator)
 class PageEditController extends DecorationBase {

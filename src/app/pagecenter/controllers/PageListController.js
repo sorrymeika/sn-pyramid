@@ -1,20 +1,19 @@
-import { controller, injectable } from "snowball/app";
+import { controller, autowired, param } from "snowball/app";
 
-import { PageService } from "../../../domain/services/PageService";
-import { PageListService } from "../services/PageListService";
 import { PageList } from "../containers/PageList";
+import { PageConfiguration } from "../configuration";
+import { PageListService } from "../services/PageListService";
 
-
-@controller(PageList)
+@controller({
+    component: PageList,
+    configuration: PageConfiguration
+})
 class PageListController {
-    @injectable pageListService;
+    @param
+    pageType: number;
 
-    constructor(props, ctx) {
-        this.pageType = Number(props.location.params.type);
-        this.pageListService = new PageListService({
-            pageService: new PageService()
-        });
-    }
+    @autowired
+    pageListService: PageListService;
 
     onInit() {
         this.pageListService.init(this.pageType);
