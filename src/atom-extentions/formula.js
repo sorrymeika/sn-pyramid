@@ -1,5 +1,5 @@
 import { JsonComponent, Atom } from "nuclear";
-import { observable } from "snowball";
+import { observable, asObservable } from "snowball";
 import { Icon, Modal } from "antd";
 import React from "react";
 import { FormulaSelect } from "../app/product/components/FormulaSelect";
@@ -17,7 +17,7 @@ class Formula extends JsonComponent {
     }
 
     componentDidMount() {
-        this.asModel().observe('value', (value) => {
+        asObservable(this).observe('value', (value) => {
             this.props.onChange && this.props.onChange(value);
         });
     }

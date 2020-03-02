@@ -1,5 +1,5 @@
 import { JsonComponent, Atom } from "nuclear";
-import { observable, util } from "snowball";
+import { observable, util, asObservable } from "snowball";
 
 const iconStyle = { cursor: 'pointer', width: 24, height: 24, lineHeight: '25px', color: '#333', border: '1px solid #333', borderRadius: 2 };
 
@@ -19,7 +19,7 @@ class InputGroupList extends JsonComponent {
     }
 
     componentDidMount() {
-        this.asModel().observe('data', (data) => {
+        asObservable(this).observe('data', (data) => {
             this.props.onChange && this.props.onChange(data);
         });
     }

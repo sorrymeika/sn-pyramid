@@ -1,8 +1,8 @@
+import { observable } from "snowball";
 import { controller, autowired } from "snowball/app";
 
 import TemplateService from "../../../shared/services/TemplateService";
 import Templates from "../containers/Templates";
-import { observable } from "snowball";
 import { TemplateConfiguration } from "../configuration";
 
 @controller({
@@ -25,6 +25,7 @@ class TemplateController {
         const res = await this.templateService.getTemplates(data);
         if (res.success) {
             this.dataSource = res.data;
+            console.log(this.dataSource, res.data);
         } else {
             this.dataSource = [];
         }

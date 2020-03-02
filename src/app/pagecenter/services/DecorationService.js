@@ -69,14 +69,7 @@ export default class DecorationService extends Service {
             return;
         }
         this.bricks = bricksRes.data
-            .sort((a, b) => a.sort - b.sort)
-            .map((brick) => {
-                return {
-                    ...brick,
-                    data: JSON.parse(brick.data),
-                    props: JSON.parse(brick.props),
-                };
-            });
+            .sort((a, b) => a.sort - b.sort);
     }
 
     async handleDrop(e) {

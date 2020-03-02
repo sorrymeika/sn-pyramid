@@ -12,7 +12,7 @@ class Images extends BrickBase {
     }
 
     template(template) {
-        return `<div sn-if="!images||!images.length" style="padding: 20px; text-align: center; border: 1px solid #ddd; background:#fff;padding: 20px 4px;">${template.name}</div>
+        return `<div sn-if={!images||!images.length} style="padding: 20px; text-align: center; border: 1px solid #ddd; background:#fff;padding: 20px 4px;">${template.name}</div>
         <div sn-else>${template.html}</div>`;
     }
 }

@@ -1,5 +1,5 @@
 import { JsonComponent, Atom } from "nuclear";
-import { observable } from "snowball";
+import { observable, asObservable } from "snowball";
 import { Icon, Modal } from "antd";
 import React from "react";
 
@@ -16,7 +16,7 @@ class Link extends JsonComponent {
     }
 
     componentDidMount() {
-        this.asModel().observe('value', (value) => {
+        asObservable(this).observe('value', (value) => {
             this.props.onChange && this.props.onChange(value);
         });
     }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { util, ViewModel } from 'snowball';
+import { util, template as newTemplate, observable } from 'snowball';
 import { PageContext } from 'snowball/app';
 
 export class BrickBase extends Component {
@@ -26,31 +26,24 @@ export class BrickBase extends Component {
         const templateProps = template.props;
         const isFixed = templateProps.isFixed;
 
-        this.model = new ViewModel({
-            components: {
+        const connect = newTemplate(`<div style="${isFixed ? '' : 'overflow:hidden;'}width:100%;">
+        <div sn-if={data}>${this.template(template)}</div>
+        <div sn-else style="${isFixed ? 'padding: 4px;' : 'padding: 20px;'} text-align: center; border: 1px solid #ddd; background:#fff">{templateName}</div>
+    </div>`);
+        this.model = observable({
+            env: {
+                IS_BG: true,
             },
-            el: (
-                `<div style="${isFixed ? '' : 'overflow:hidden;'}width:100%;">
-                    <div sn-if="{data}">${this.template(template)}</div>
-                    <div sn-else style="${isFixed ? 'padding: 4px;' : 'padding: 20px;'} text-align: center; border: 1px solid #ddd; background:#fff">{templateName}</div>
-                </div>`
-            ),
-            attributes: {
-                env: {
-                    IS_BG: true,
-                },
-                templateName: template.name,
-                templateProps,
-                pageState: page,
-                pageProps: page.props,
-                address: {
-                    location: ''
-                }
+            templateName: template.name,
+            templateProps,
+            pageState: page,
+            pageProps: page.props,
+            address: {
+                location: ''
             }
         });
-
+        this.component = connect(this.model);
         this._processData(brick);
-
         this.model.observe(() => {
             this.rectChange();
         });
@@ -59,7 +52,8 @@ export class BrickBase extends Component {
     setRef = (ref) => {
         if (ref && !this.node) {
             this.node = ref;
-            this.model.$el.appendTo(ref);
+            this.component.appendTo(ref);
+            this.component.render();
         }
     }
 
@@ -81,7 +75,7 @@ export class BrickBase extends Component {
     template(template) {
         let html = template.html;
         const style = 'padding: 20px; text-align: center; border: 1px solid #ddd; background:#fff';
-        return `<div sn-if="!data||util.isEmptyObject(data)" style="${style};padding: 20px 4px;">${template.name}</div><div sn-else>${html}</div>`;
+        return `<div sn-if={!data||util.isEmptyObject(data)} style="${style};padding: 20px 4px;">${template.name + 'bbb'}</div><div sn-else>${html}</div>`;
     }
 
     async _processData(brick) {

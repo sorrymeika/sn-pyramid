@@ -1,6 +1,7 @@
-import { Service } from "snowball/app";
+import { Service, autowired } from "snowball/app";
 import { observable } from "snowball";
 import { message } from "antd";
+import PageService from "../../../shared/services/PageService";
 
 export class PageListService extends Service {
     @observable pageList = [];
@@ -20,10 +21,11 @@ export class PageListService extends Service {
     onAddPage = this.ctx.createEmitter();
     onCancelAddPage = this.ctx.createEmitter();
 
-    constructor({ pageService }) {
-        super();
+    @autowired
+    pageService: PageService;
 
-        this.pageService = pageService;
+    constructor() {
+        super();
 
         this.onSearch((params) => this.search(params));
         this.onPageChange(({ current }) => this.changePageIndex(current));

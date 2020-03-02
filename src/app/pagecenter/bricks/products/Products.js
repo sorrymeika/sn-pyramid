@@ -5,7 +5,7 @@ export class Products extends BrickBase {
         let search;
         const products = data.products || [];
 
-        if (products.length) {
+        if (data.type == 1 || products.length) {
             if (data.type == 1) {
                 const formulaId = Number(data.formulaId);
                 const maxNum = Number(data.maxNum);
@@ -41,7 +41,7 @@ export class Products extends BrickBase {
     }
 
     template(template) {
-        return `<div sn-if="!products||!products.length" style="padding: 20px; text-align: center; border: 1px solid #ddd; background:#fff;padding: 20px 4px;">${template.name}</div>
+        return `<div sn-if={!products||!products.length} style="padding: 20px; text-align: center; border: 1px solid #ddd; background:#fff;padding: 20px 4px;">${template.name}</div>
         <div sn-else>${template.html}</div>`;
     }
 }
